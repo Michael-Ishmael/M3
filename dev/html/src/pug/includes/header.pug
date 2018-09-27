@@ -1,0 +1,17 @@
+
+- const nav = require("../../data/nav");
+
+header.container-fluid.p-0
+    .main-header
+        .mx-5
+            .row.align-items-center.justify-content-center
+                .col-4
+                    div
+                        img.logo(src=require("../../images/amec-logo.png"))
+                .col-8
+                    ul.nav.justify-content-end
+                        each item in nav.navItems
+                            li.nav-item
+                                - var activeClass = item.active ? "active" : null;
+                                a.nav-link.p-2(href="#", class=activeClass)= item.label
+    h1.sub-header.text-center.p-4.m-0 Measurement Maturity Mapper
