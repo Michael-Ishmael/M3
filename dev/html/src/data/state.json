@@ -1,0 +1,24 @@
+{
+  "responses": {
+    "1a": {
+      "type": "SINGLE_ANSWER",
+      "answerId": 1
+    },
+    "1f": {
+      "type": "MULTIPLE_ANSWER",
+      "answerIds": [2, 4]
+    }
+  },
+  "pages": {
+    "currentPageIndex": 1,
+    "routingConditions": {
+      "ORG_TYPE": "AGENCY",
+      "AGENCY_TARGET" : "CLIENT"
+    }
+  },
+  "routingFlags": {
+    "ORG_TYPE": "AGENCY",
+    "AGENCY_TARGET" : "CLIENT"
+  },
+  "progress": 0.5
+}

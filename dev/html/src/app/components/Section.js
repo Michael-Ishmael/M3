@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Section = ({onNext, onPrev, text}) => (
-    <div>
+    <div className="questionnaire-container">
         <p className="">
             {text}
         </p>
@@ -12,6 +12,12 @@ const Section = ({onNext, onPrev, text}) => (
         </div>
     </div>
 );
+
+Section.propTypes = {
+    onNext: PropTypes.func.isRequired,
+    onPrev: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
+}
 
 export default Section
 
