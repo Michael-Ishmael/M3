@@ -10,7 +10,7 @@ import QuestionRadio from '../components/questions/QuestionRadio'
 
 const QuestionSelector = ({question, answers, onAnswer, onRouteSet}) => {
 
-    const handleQuestionAnswered = (question, answer) => {
+    const handleQuestionAnswered = (question, answer, checked, text) => {
         if(question.setRoutingCondition){
             if(answer.setRoutingCondition){
                 onRouteSet(answer.setRoutingCondition.key, answer.setRoutingCondition.value)
@@ -19,7 +19,7 @@ const QuestionSelector = ({question, answers, onAnswer, onRouteSet}) => {
             }
         }
 
-        onAnswer(question, answer)
+        onAnswer(question, answer, checked, text)
     };
 
     return (<QuestionRadio question={question} answers={answers} onAnswer={handleQuestionAnswered}  />)
@@ -34,7 +34,11 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onAnswer: (question, answer) => dispatch(singleQuestionAnswered(question.questionId, answer.answerId)),
+    onAnswer: (question, answer, checked, text) => {
+        if(question.questionTypeId === 2) return dispatch(multipleQuestionAnswered(question.questionId, answer.answerId, checked))
+        if(question.questionTypeId === 3) return dispatch(textQuestionAnswered(question.questionId, answer.answerId, text));
+        return dispatch(singleQuestionAnswered(question.questionId, answer.answerId));
+    },
     onRouteSet: (key, value) => dispatch(setRoutingFlag(key, value)),
 });
 

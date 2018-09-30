@@ -86,7 +86,7 @@ const setResponsesOnAnswers = (answers, responses) => {
                     break;
                 case QuestionTypes.TEXT_ANSWER:
                     if(answer.answerId === response.answerId){
-                        respondedAnswer = {...answer, responseText:  response.text};
+                        respondedAnswer = {...answer, responseText:  response.responseText};
                     } else {
                         respondedAnswer = answer;
                     }

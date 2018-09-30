@@ -1478,6 +1478,13 @@ const data = {
         },
         {
             "score": null,
+            "questionId": "1g",
+            "text": "placeHolder",
+            "sectionId": 1,
+            "answerId": 2309
+        },
+        {
+            "score": null,
             "questionId": "1h",
             "text": "For the country I\u2019m based in",
             "sectionId": 1,

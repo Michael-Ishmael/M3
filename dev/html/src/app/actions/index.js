@@ -48,9 +48,10 @@ export const singleQuestionAnswered = (questionId, answerId) => ({
     answerId
 });
 
-export const textQuestionAnswered = (questionId, answerText) => ({
-    type: ResponseActions.SINGLE_ANSWER_RESPONSE,
+export const textQuestionAnswered = (questionId, answerId, answerText) => ({
+    type: ResponseActions.TEXT_ANSWER_RESPONSE,
     questionId,
+    answerId,
     answerText
 });
 
