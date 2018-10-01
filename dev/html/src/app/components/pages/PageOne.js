@@ -2,23 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BasePage from './BasePage'
 import QuestionResponder from "../../containers/QuestionResponder";
+import { splitParagraphs } from "../../services/util";
 
-const splitParagraphs = (text) => {
-    if(!text) return [''];
-    const lines = text.split('\n');
-    return lines.filter(l => l && l.trim().length > 0 );
-};
+export const PageOne = ({pageContent, pagination}) => {
 
-export const PageOne = ({onNext, onPrev,sectionHeader, text, question, answers, pageCount}) => {
-
-    const nextEnabled = answers.some(a => a.checked);
+    const nextEnabled = pageContent.answers.some(a => a.checked) && pagination.currentPage < pagination.pageCount;
 
     return (
-        <BasePage onNext={onNext} onPrev={onPrev} nextEnabled={nextEnabled} prevEnabled={false} pageCount={pageCount}>
-            <h2>{sectionHeader}</h2>
+        <BasePage nextEnabled={nextEnabled} prevEnabled={false} currentPage={pagination.currentPage} sectionHeader={pageContent.sectionHeader}>
+
             <div>
                 {
-                    splitParagraphs(text).map((pText, i) => {
+                    splitParagraphs(pageContent.sectionText).map((pText, i) => {
                         return (
                             <p key={i} className="section-text intro">
                                 {pText}
@@ -26,23 +21,30 @@ export const PageOne = ({onNext, onPrev,sectionHeader, text, question, answers, 
                     })
                 }
             </div>
-            <QuestionResponder answers={answers} question={question}/>
+            <QuestionResponder answers={pageContent.answers} question={pageContent.questions[0]} classNames={"first"}/>
         </BasePage>
     );
 };
 
-export const StandardPage = ({onNext, onPrev, sectionHeader, questions, answers, pageCount}) => {
+export const StandardPage = ({pageContent, pagination}) => {
 
-    const nextEnabled = questions.every(q =>
-        answers.filter(a => a.questionId === q.questionId).some(a => a.checked));
+    const nextEnabled = pageContent.questions.every(q =>
+        pageContent.answers.filter(a => a.questionId === q.questionId).some(a => a.checked)) && pagination.currentPage < pagination.pageCount;
+
+    let pageTextEl = null;
+    if(pageContent.pageText){
+        pageTextEl  = (<div className="section-text intro">
+            {pageContent.pageText}
+        </div>)
+    }
 
     return (
-        <BasePage onNext={onNext} onPrev={onPrev} nextEnabled={nextEnabled} prevEnabled={true} pageCount={pageCount}>
-            <h2>{sectionHeader}</h2>
-            <div className="p-4">
+        <BasePage nextEnabled={nextEnabled} prevEnabled={true} currentPage={pagination.currentPage} sectionHeader={pageContent.sectionHeader}>
+            {pageTextEl}
+            <div>
             {
-                questions.map(question => {
-                    const qAnswers = answers.filter(a => a.questionId === question.questionId);
+                pageContent.questions.map(question => {
+                    const qAnswers = pageContent.answers.filter(a => a.questionId === question.questionId);
                      return (<QuestionResponder key={question.questionId} answers={qAnswers} question={question} />)
                 })
             }

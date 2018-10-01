@@ -65,6 +65,7 @@ module.exports = {
         port: process.env.PORT,
         open: true,
         overlay: true,
+        historyApiFallback: true
 
     }
 };

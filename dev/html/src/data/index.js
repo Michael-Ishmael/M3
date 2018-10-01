@@ -16,7 +16,8 @@ const data = {
             "setRoutingCondition": {
                 "key": "ORG_TYPE",
                 "defaultValue": "OTHER"
-            }
+            },
+            "template": "SINGLE_COLUMN_NARROW"
         },
         {
             "questionTypeId": 1,
@@ -34,7 +35,8 @@ const data = {
             "setRoutingCondition": {
                 "key": "AGENCY_TARGET",
                 "defaultValue": "CLIENT"
-            }
+            },
+            "template": "SINGLE_COLUMN_WIDE"
         },
         {
             "questionTypeId": 1,
@@ -49,7 +51,8 @@ const data = {
             "maxScore": null,
             "strengthOrder": null,
             "actionOrder": null,
-            "routingRuleKeys": ["teamRoleQuestionWording"]
+            "routingRuleKeys": ["teamRoleQuestionVisible", "teamRoleQuestionWording"],
+            "template": "SINGLE_ROW"
         },
         {
             "questionTypeId": 1,
@@ -63,7 +66,9 @@ const data = {
             "questionId": "1c",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "routingRuleKeys": ["industrySectorQuestionVisible"],
+            "template": "TWO_COLUMN_WIDE"
         },
         {
             "questionTypeId": 1,
@@ -77,7 +82,9 @@ const data = {
             "questionId": "1d",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "routingRuleKeys": ["agencyTypeQuestionVisible"],
+            "template": "SINGLE_COLUMN_WIDE"
         },
         {
             "questionTypeId": 1,
@@ -91,7 +98,8 @@ const data = {
             "questionId": "1e",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "template": "TWO_COLUMN_WIDE"
         },
         {
             "questionTypeId": 2,
@@ -105,7 +113,8 @@ const data = {
             "questionId": "1f",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "template": "TWO_COLUMN_NARROW"
         },
         {
             "questionTypeId": 3,
@@ -120,7 +129,8 @@ const data = {
             "maxScore": null,
             "strengthOrder": null,
             "actionOrder": null,
-            "routingRuleKeys": ["countryQuestionWording"]
+            "routingRuleKeys": ["countryQuestionWording"],
+            "template": "TEXT_INPUT"
         },
         {
             "questionTypeId": 1,
@@ -134,7 +144,9 @@ const data = {
             "questionId": "1h",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "template": "SINGLE_COLUMN_NARROW"
+
         },
         {
             "questionTypeId": 1,
@@ -143,12 +155,13 @@ const data = {
             "actionThreshold": null,
             "actionText": null,
             "strengthThreshold": null,
-            "text": "Do you give your permission for the data you submit in this questionnaire to contribute to an overall benchmark dataset.  This will only involve the aggregate findings from the M3 questionnaire from multiple responses  - detail of your specific answers will not be shared",
+            "text": "Do you give your permission for the data you submit in this questionnaire to contribute to an overall benchmark dataset?\n\nThis will only involve the aggregate findings from the M3 questionnaire from multiple responses  - detail of your specific answers will not be shared",
             "sectionId": 1,
             "questionId": "1i",
             "maxScore": null,
             "strengthOrder": null,
-            "actionOrder": null
+            "actionOrder": null,
+            "template": "SINGLE_ROW"
         },
         {
             "questionTypeId": 1,
@@ -1007,7 +1020,11 @@ const data = {
             "questionId": "1a",
             "text": "Commercial organisation",
             "sectionId": 1,
-            "answerId": 1
+            "answerId": 1,
+            "setRoutingCondition": {
+                "key": "ORG_TYPE",
+                "value": "COMMERCIAL"
+            }
         },
         {
             "score": null,
@@ -1066,13 +1083,6 @@ const data = {
         {
             "score": null,
             "questionId": "1b",
-            "text": "Other",
-            "sectionId": 1,
-            "answerId": 6
-        },
-        {
-            "score": null,
-            "questionId": "1b",
             "text": "Marketing",
             "sectionId": 1,
             "answerId": 7
@@ -1090,6 +1100,13 @@ const data = {
             "text": "Digital",
             "sectionId": 1,
             "answerId": 9
+        },
+        {
+            "score": null,
+            "questionId": "1b",
+            "text": "Other",
+            "sectionId": 1,
+            "answerId": 6
         },
         {
             "score": null,
@@ -1318,13 +1335,6 @@ const data = {
         {
             "score": null,
             "questionId": "1d",
-            "text": "An integrated communications consultancy",
-            "sectionId": 1,
-            "answerId": 42
-        },
-        {
-            "score": null,
-            "questionId": "1d",
             "text": "A marketing or digital agency",
             "sectionId": 1,
             "answerId": 43
@@ -1335,6 +1345,13 @@ const data = {
             "text": "A management consultancy",
             "sectionId": 1,
             "answerId": 44
+        },
+        {
+            "score": null,
+            "questionId": "1d",
+            "text": "An integrated communications consultancy",
+            "sectionId": 1,
+            "answerId": 42
         },
         {
             "score": null,
@@ -3721,6 +3738,8 @@ const data = {
             "index": 3,
             "sectionId": 1,
             "template": "STANDARD_PAGE",
+            "routingRuleKeys": ["answerAsClientWording"],
+            "text": "[~ternary~]",
             "questionIds": [
                 "1b",
                 "1c",
@@ -3739,6 +3758,34 @@ const data = {
             "flags": [
                 {
                     "key": "ORG_TYPE",
+                    "value": "AGENCY"
+                }
+            ]
+        },
+        "answerAsClientWording" : {
+            "type": "CHANGE_TEXT_IF_ALL",
+            "flags": [
+                {
+                    "key": "ORG_TYPE",
+                    "value": "AGENCY"
+                },
+                {
+                    "key": "AGENCY_TARGET",
+                    "value": "CLIENT"
+                }
+            ],
+            "trueVal": "Please make sure for all these questions that you answer your client and not as your agency. This helps to ensure that valid comparisons are made to different organisations.",
+            "falseVal": ""
+        },
+        "teamRoleQuestionVisible": {
+            "type" : "HIDE_IF_ALL",
+            "flags": [
+                {
+                    "key": "ORG_TYPE",
+                    "value": "AGENCY"
+                },
+                {
+                    "key": "AGENCY_TARGET",
                     "value": "AGENCY"
                 }
             ]
@@ -3772,7 +3819,25 @@ const data = {
             ],
             "trueVal": "is your client",
             "falseVal": "are you"
-        }
+        },
+        "agencyTypeQuestionVisible": {
+            "type" : "SHOW_IF_ALL",
+            "flags": [
+                {
+                    "key": "ORG_TYPE",
+                    "value": "AGENCY"
+                }
+            ]
+        },
+        "industrySectorQuestionVisible": {
+            "type" : "SHOW_IF_ALL",
+            "flags": [
+                {
+                    "key": "ORG_TYPE",
+                    "value": "COMMERCIAL"
+                }
+            ]
+        },
 
 
     }

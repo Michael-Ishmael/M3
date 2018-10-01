@@ -7,11 +7,15 @@ const ResponseCheck = ({answerId, text, onChecked, checkType = "radio", checked 
         onChecked(e.target.checked);
     };
 
+    const checkClass = checked ? " checked" : "";
+
     return (
-        <div className="form-check">
-            <input onChange={handleCheck} className="form-check-input" type={checkType} name={'a' + answerId} id={'a' + answerId}
+        <div className="form-check mx-3">
+
+            <input onChange={handleCheck} className="form-check-input"
+                   type={checkType} name={'a' + answerId} id={'a' + answerId}
                    value={answerId} checked={checked}/>
-            <label className="form-check-label" htmlFor={'a' + answerId}>
+            <label className={"form-check-label " + checkClass} htmlFor={'a' + answerId}>
                 {text}
             </label>
         </div>

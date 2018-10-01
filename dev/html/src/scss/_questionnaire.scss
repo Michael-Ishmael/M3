@@ -8,6 +8,20 @@ main {
 
     .questionnaire-body {
 
+      h3 {
+
+        font-size: 1rem;
+        text-transform: uppercase;
+        color: $light-gray;
+        margin-bottom: 2rem;
+
+        .center-div {
+          display: inline-block;
+          border-bottom: solid 1px $light-gray;
+        }
+
+      }
+
       .section-text {
 
         font-size: .8em;
@@ -19,6 +33,52 @@ main {
             font-size: 1em;
           }
         }
+
+      }
+
+      .question-container {
+
+        margin-top: 3em;
+
+        .question-text-container{
+
+          h2.question {
+            font-size: 1.2rem;
+            //max-width: 800px;
+            color: $blue;
+            margin: 0 15px 1em;
+          }
+
+          &.first h2.question{
+            font-size: 1.6rem;
+            //max-width: 800px;
+          }
+
+          p {
+            //max-width: 800px;
+            &.sml{
+              font-size: .8em;
+              margin-top: -1em;
+            }
+          }
+        }
+
+
+      }
+
+
+
+      .answer-container {
+        color: $mid-light-gray;
+
+        label.checked {
+          color: $orange;
+        }
+
+/*        input[type=radio]:checked {
+          -webkit-appearance: none;
+          outline: 1px solid $orange;
+        }*/
 
       }
 

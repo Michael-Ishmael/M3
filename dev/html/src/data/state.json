@@ -5,7 +5,7 @@
       "answerId": 1
     },
     "1f": {
-      "type": "MULTIPLE_ANSWER",
+      "type": "MkULTIPLE_ANSWER",
       "answerIds": [2, 4]
     }
   },

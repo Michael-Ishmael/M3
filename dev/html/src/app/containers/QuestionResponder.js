@@ -3,43 +3,31 @@ import { connect } from 'react-redux'
 import {
     singleQuestionAnswered,
     textQuestionAnswered,
-    multipleQuestionAnswered, setRoutingFlag
+    multipleQuestionAnswered
 } from '../actions'
-import QuestionRadio from '../components/questions/QuestionRadio'
+import Question from '../components/questions/Question'
 
 
-const QuestionSelector = ({question, answers, onAnswer, onRouteSet}) => {
+const QuestionSelector = ({question, answers, classNames, onAnswer}) => {
 
-    const handleQuestionAnswered = (question, answer, checked, text) => {
-        if(question.setRoutingCondition){
-            if(answer.setRoutingCondition){
-                onRouteSet(answer.setRoutingCondition.key, answer.setRoutingCondition.value)
-            } else {
-                onRouteSet(question.setRoutingCondition.key, question.setRoutingCondition.defaultValue)
-            }
-        }
-
-        onAnswer(question, answer, checked, text)
-    };
-
-    return (<QuestionRadio question={question} answers={answers} onAnswer={handleQuestionAnswered}  />)
+    return (<Question question={question} answers={answers} classNames={ classNames} onAnswer={onAnswer}  />)
 };
 
 const mapStateToProps = (state, ownProps) => {
 
     return {
         question: ownProps.question,
-        answers: ownProps.answers
+        answers: ownProps.answers,
+        classNames: ownProps.classNames
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onAnswer: (question, answer, checked, text) => {
-        if(question.questionTypeId === 2) return dispatch(multipleQuestionAnswered(question.questionId, answer.answerId, checked))
-        if(question.questionTypeId === 3) return dispatch(textQuestionAnswered(question.questionId, answer.answerId, text));
-        return dispatch(singleQuestionAnswered(question.questionId, answer.answerId));
+    onAnswer: (question, answerId, checked, text) => {
+        if(question.questionTypeId === 2) return dispatch(multipleQuestionAnswered(question.questionId, answerId, checked))
+        if(question.questionTypeId === 3) return dispatch(textQuestionAnswered(question.questionId, answerId, text));
+        return dispatch(singleQuestionAnswered(question.questionId, answerId));
     },
-    onRouteSet: (key, value) => dispatch(setRoutingFlag(key, value)),
 });
 
 export default connect(
