@@ -2301,7 +2301,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5a",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 179
         },
@@ -2343,7 +2343,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5b",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 185
         },
@@ -2385,7 +2385,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5c",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 191
         },
@@ -2427,7 +2427,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5d",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 197
         },
@@ -2469,7 +2469,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5e",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 203
         },
@@ -2511,7 +2511,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5f",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 209
         },
@@ -2553,7 +2553,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5g",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 215
         },
@@ -2595,7 +2595,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5h",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 221
         },
@@ -2637,7 +2637,7 @@ const data = {
         {
             "score": 0.25,
             "questionId": "5i",
-            "text": "Neither agree nor disagree&#9;",
+            "text": "Neither agree nor disagree",
             "sectionId": 5,
             "answerId": 227
         },
@@ -3750,7 +3750,61 @@ const data = {
                 "1h",
                 "1i"
             ]
-        }
+        },
+        {
+            "index": 4,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 2,
+            "questionIds": ["2a", "2b", "2c", "2d", "2e"]
+        },
+        {
+            "index": 5,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 3,
+            "questionIds": ["3a", "3b", "3c", "3d", "3e", "3f", "3g", "3h", "3i", "3j", "3k", "3l"]
+        },
+        {
+            "index": 6,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 4,
+            "questionIds": ["4a", "4b", "4c", "4d"]
+        },
+        {
+            "index": 7,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 5,
+            "questionIds": ["5a", "5b", "5c", "5d", "5e", "5f", "5g", "5h", "5i"]
+        },
+        {
+            "index": 8,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 6,
+            "questionIds": ["6a", "6b", "6c", "6d", "6e"]
+        },
+        {
+            "index": 9,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 7,
+            "questionIds": ["7a", "7b", "7c", "7d", "7e"]
+        },
+        {
+            "index": 10,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 8,
+            "questionIds": ["8a", "8b", "8c", "8d", "8e", "8f", "8g", "8h", "8i", "8j", "8k"]
+        },
+        {
+            "index": 11,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 9,
+            "questionIds": ["9a", "9b", "9c", "9d"]
+        },
+        {
+            "index": 12,
+            "template": "TABLE_QUESTIONS",
+            "sectionId": 10,
+            "questionIds": ["10a", "10b"]
+        },
     ],
     "routingRules": {
         "displayAgencyTargetPage": {

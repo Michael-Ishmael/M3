@@ -9,8 +9,8 @@ const TwoColumnCheckWide = ({question, answers, onAnswer}) => {
             <div className="col-12" style={{maxWidth: '960px'}}>
                 <div className="answer-container text-center row ">
                     {answers.map((a, i) => {
-                        let offsetClass = i % 2 === 0 ? " offset-md-1" : "";
-                        return <div key={a.answerId} className={"col-6 col-md-5 text-left" + offsetClass}>
+                        let offsetClass = i % 2 === 0 ? " col-md-4 offset-md-2" : " col-md-5";
+                        return <div key={a.answerId} className={"col-6 text-left" + offsetClass}>
                             <ResponseCheck
                                 answerId={a.answerId}
                                 onChecked={(checked) => onAnswer(a.answerId, checked)}

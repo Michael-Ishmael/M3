@@ -17,7 +17,7 @@ main {
 
         .center-div {
           display: inline-block;
-          border-bottom: solid 1px $light-gray;
+          border-bottom: solid 1px $orange;
         }
 
       }
@@ -46,7 +46,7 @@ main {
             font-size: 1.2rem;
             //max-width: 800px;
             color: $blue;
-            margin: 0 15px 1em;
+            margin: 0 15px 1.8em;
           }
 
           &.first h2.question{
@@ -58,7 +58,7 @@ main {
             //max-width: 800px;
             &.sml{
               font-size: .8em;
-              margin-top: -1em;
+              margin-top: -2.2em;
             }
           }
         }
@@ -80,6 +80,35 @@ main {
           outline: 1px solid $orange;
         }*/
 
+      }
+
+    }
+
+    h5 {
+      .section-text {
+        color: $dark-gray;
+      }
+    }
+
+    .tabled-question-section {
+
+      font-size: .8em;
+
+
+      tr {
+        margin: 10px 0;
+      }
+
+      th {
+        color: $blue;
+        font-size: 1em;
+        font-weight: 500;
+      }
+
+
+
+      td, th.col-head {
+        width: 9em;
       }
 
     }

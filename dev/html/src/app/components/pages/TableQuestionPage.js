@@ -1,17 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BasePage from './BasePage'
-import QuestionResponder from "../../containers/QuestionResponder";
+import BasePage from "./BasePage";
 import {splitParagraphs} from "../../services/util";
+import TableQuestionResponder from "../../containers/TableQuestionResponder";
 
-export const PageOne = ({pageContent, pagination}) => {
+const TableQuestionPage = ({pageContent, pagination}) => {
 
-    const nextEnabled = pageContent.answers.some(a => a.checked) && pagination.currentPage < pagination.pageCount;
+    const nextEnabled = pageContent.questions.every(q =>
+        pageContent.answers.filter(a => a.questionId === q.questionId).some(a => a.checked)) && pagination.currentPage < pagination.pageCount;
 
     return (
-        <BasePage nextEnabled={nextEnabled} prevEnabled={false} currentPage={pagination.currentPage} sectionHeader={pageContent.sectionHeader}>
+        <BasePage nextEnabled={nextEnabled} prevEnabled={true} currentPage={pagination.currentPage} sectionHeader={pageContent.sectionHeader}>
 
-            <div>
+            <h5 className="py-3 text-center">
                 {
                     splitParagraphs(pageContent.sectionText).map((pText, i) => {
                         return (
@@ -20,14 +21,13 @@ export const PageOne = ({pageContent, pagination}) => {
                             </p>)
                     })
                 }
-            </div>
-            <QuestionResponder answers={pageContent.answers} question={pageContent.questions[0]} classNames={"first"}/>
+            </h5>
+            <TableQuestionResponder answers={pageContent.answers} questions={pageContent.questions} classNames={"first"}/>
         </BasePage>
     );
 };
 
-
-PageOne.propTypes = {
+TableQuestionPage.propTypes = {
     pageContent: PropTypes.shape({
         sectionHeader: PropTypes.string.isRequired,
         sectionText: PropTypes.string.isRequired,
@@ -48,3 +48,4 @@ PageOne.propTypes = {
     })
 };
 
+export default TableQuestionPage
