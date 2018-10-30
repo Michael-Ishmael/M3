@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d34fdece-0431-478f-ac1f-7a23bff5f724" name="str.66bytes.com" url="http://str.66bytes.com">
+        <fileTransfer host="52.213.117.238" port="22" privateKey="$USER_HOME$/.ssh/ec2/ec2Web.pem" rootFolder="/var/www/html/str" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

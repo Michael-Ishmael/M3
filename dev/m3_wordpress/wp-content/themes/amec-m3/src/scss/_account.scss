@@ -1,0 +1,28 @@
+.questionnaire-block {
+
+  border: 2px solid $dark-gray;
+  border-radius: 3px;
+  height: 4em;
+  text-align: center;
+  padding: 1em;
+  margin-bottom: 1em;
+  cursor: pointer;
+
+  &.blue {
+    border-color: $blue;
+    color: $blue;
+
+  }
+
+  h3 {
+    font-size: .8em;
+    text-transform: uppercase;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+
+}

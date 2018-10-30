@@ -1,0 +1,45 @@
+
+.auth-container {
+
+  .register-container {
+
+    border: 2px solid $orange;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+
+    .register-form {
+      font-size: .8em;
+    }
+
+  }
+
+  .auth-choice {
+
+    padding: 1.4em 2em 2em;
+    border: solid 2px $blue;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    h2 {
+      margin-bottom: .6em;
+    }
+
+    &.register{
+      border-color: $orange;
+    }
+
+    i.fa, i.far {
+      font-size: 3em;
+      margin-bottom: .2em;
+    }
+  }
+
+}
+
+
+
+
