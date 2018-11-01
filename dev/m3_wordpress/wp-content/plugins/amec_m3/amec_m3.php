@@ -94,6 +94,11 @@ add_action( 'rest_api_init', function () {
 		'callback' => 'update_questionnaire'
 	) );
 
+	register_rest_route( 'm3/v1', '/questionnaires/(?P<questionnaireId>[\d]+)', array(
+		'methods'  => 'DELETE',
+		'callback' => 'delete_questionnaire'
+	) );
+
 } );
 
 
@@ -242,17 +247,7 @@ function create_questionnaire( $request){
 
 function update_questionnaire ( $request ){
 
-	$user = wp_get_current_user();
-	if (! $user->exists())
-		return new WP_REST_Response( sprintf("User not authorised"), 403);;
-
 	$params = $request->get_params();
-
-	if ( isset( $params["userId"] ) ) {
-		$user_id = $params["userId"];
-		if($user_id != $user->ID)
-			return new WP_REST_Response( sprintf("User: %d is not authorised", $user_id), 403);
-	}
 
 	if ( isset( $params["description"] ) ) {
 		$description = $params["description"];
@@ -275,6 +270,29 @@ function update_questionnaire ( $request ){
 	return new WP_REST_Response( $data, 200 );
 
 }
+
+
+function delete_questionnaire ( $request ){
+
+	$params = $request->get_params();
+
+
+	if ( isset( $params["questionnaireId"] ) ) {
+		$questionnaire_id = $params["questionnaireId"];
+	}	else {
+		return new WP_REST_Response( "questionnaireId is a required field", 400);
+	}
+
+	if ( isset( $questionnaire_id ) ) {
+		$data = hide_questionnaire( $questionnaire_id );
+	} else {
+		return new WP_REST_Response( "Unknown error", 500);
+	}
+
+	return new WP_REST_Response( "SUCCESS", 200 );
+
+}
+
 
 add_action( 'init', 'm3_disable_admin_bar', 9 );
 //add_action( 'init', 'm3_set_user_questionnaire', 10 );

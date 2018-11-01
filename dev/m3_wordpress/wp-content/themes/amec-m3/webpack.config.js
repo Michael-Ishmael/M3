@@ -55,13 +55,12 @@ module.exports = {
             filename: "[name].css"
         }),
         new BrowserSyncPlugin( {
-                proxy: "http://localhost:8888/questionnaire",
+                proxy: "http://m3project.local:8888/m3",
                 files: [
                     '**/*.php',
                     '**/*.js',
                     '**/*.scss',
-                ],
-                reloadDelay: 2
+                ]
             }
         )
     ],

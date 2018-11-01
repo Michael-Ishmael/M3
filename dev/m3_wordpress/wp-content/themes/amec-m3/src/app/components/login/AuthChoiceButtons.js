@@ -1,5 +1,6 @@
 import {NavLink} from "react-router-dom";
 import React from "react";
+import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 
 export const AuthChoiceButtons = () => (<div className="p-4">
     <div className="row">
@@ -12,7 +13,7 @@ export const AuthChoiceButtons = () => (<div className="p-4">
             </p>
         </div>
         <div className="col-6 text-center">
-            <NavLink to={'/questionnaire/register'}>
+            <NavLink to={ getAppRoute(M3_APP_ROUTES.REGISTER) }>
             <div className="auth-choice register">
                 <div>
                     <i className="fa fa-user-plus"/>
@@ -22,7 +23,7 @@ export const AuthChoiceButtons = () => (<div className="p-4">
             </NavLink>
         </div>
         <div className="col-6 text-center">
-            <NavLink to={'/questionnaire/login'}>
+            <NavLink to={ getAppRoute(M3_APP_ROUTES.LOGIN) }>
                 <div className="auth-choice login">
                     <div>
                         <i className="far fa-arrow-alt-circle-right"/>

@@ -9,8 +9,12 @@ get_header(); ?>
 <!--        <a href="--><?php //echo wp_logout_url(); ?><!--" title="Logout">Logout</a>-->
         <?php if ( is_user_logged_in()){
 
-            ?>
+	        $current_user = wp_get_current_user();
 
+            ?>
+<div>
+    <span class="pull-right m-2">User: <?php echo $current_user->user_login  ?></span>
+</div>
         <div id="app">
 
         </div>

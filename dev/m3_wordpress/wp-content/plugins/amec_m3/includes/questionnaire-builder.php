@@ -178,7 +178,7 @@ function get_questionnaires_for_user( $user_id ) {
 		SELECT q.questionnaire_id, q.description, q.timestamp, sum(case when r.answer_id is null then 0 else 1 end) / %d as percentage_complete
 		FROM questionnaire q
 		  left join response r on r.questionnaire_id = q.questionnaire_id
-		WHERE q.user_id = %d
+		WHERE q.user_id = %d and q.hidden = FALSE 
 		group by q.questionnaire_id, q.description, q.timestamp;
 EOT;
 
@@ -207,6 +207,23 @@ function create_questionnaire_for_user( $user_id, $description ) {
 	);
 
 }
+
+function hide_questionnaire($questionnaire_id) {
+	// Only hide so we can restore
+
+	global $wpdb;
+
+	$sql = "UPDATE questionnaire SET hidden = TRUE WHERE questionnaire_id = %d";
+	$sql = $wpdb->prepare( $sql, $questionnaire_id );
+	$wpdb->query( $sql );
+
+	return array(
+		"questionnaireId" => $questionnaire_id,
+		"hidden"     => true,
+	);
+}
+
+
 
 function rename_questionnaire( $questionnaire_id, $description ) {
 
@@ -336,7 +353,7 @@ function get_m3_query( $set_name ) {
 		case "section":
 			return "SELECT section_id, section_name, section_text from section";
 		case "page":
-			return "SELECT page_id, page_index, pt.page_template_name, section_id from page p join page_template pt on p.page_template_id = pt.page_template_id";
+			return "SELECT page_id, page_index, pt.page_template_name, section_id, p.page_text from page p join page_template pt on p.page_template_id = pt.page_template_id";
 		case "routing":
 			return "SELECT routing_rule_id, routing_rule_key, t.routing_rule_type_key, true_val, false_val from routing_rule r join routing_rule_type t on r.routing_rule_type_id = t.routing_rule_type_id";
 		case "routing_flag":
@@ -408,8 +425,14 @@ function map_page( $db_page ) {
 	$j_page->index     = (int) $db_page->page_index;
 	$j_page->template  = $db_page->page_template_name;
 	$j_page->sectionId = (int) $db_page->section_id;
+	if ( isset( $db_page->page_text ) ) {
+		$j_page->text = $db_page->page_text;
+	}
 	if ( isset( $db_page->question_ids ) ) {
 		$j_page->questionIds = $db_page->question_ids;
+	}
+	if ( isset( $db_page->routing_rule_keys ) ) {
+		$j_page->routingRuleKeys = $db_page->routing_rule_keys;
 	}
 
 	return $j_page;

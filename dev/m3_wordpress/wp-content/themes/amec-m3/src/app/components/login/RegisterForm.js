@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {FormErrors} from "./FormErrors";
 import countries from "./countries";
+import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 
 class RegisterForm extends Component {
 
@@ -66,7 +67,7 @@ class RegisterForm extends Component {
     render() {
         return (
             <div className="auth-choice register">
-                <form id="register" action="/questionnaire" method="post" className="p-2">
+                <form id="register" action={getAppRoute(M3_APP_ROUTES.HOME)} method="post" className="p-2">
                     <h2>Register</h2>
                     <input type="hidden" value={this.state.nonce} name="security"/>
                     <input type="hidden" value="m3_register_true" name="m3_register"/>

@@ -30,7 +30,7 @@
                 <div class="col-8">
                     <ul class="nav justify-content-end">
                         <li class="nav-item"><a class="nav-link p-2" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link p-2 active" href="/questionnaire">Questionnaire</a></li>
+                        <li class="nav-item"><a class="nav-link p-2 active" href="/m3">Questionnaire</a></li>
                         <li class="nav-item"><a class="nav-link p-2" href="#">Supporting Material</a></li>
                         <li class="nav-item"><a class="nav-link p-2" href="#">Resources</a></li>
                         <li class="nav-item"><a class="nav-link p-2" href="#">Contact</a></li>
@@ -38,7 +38,7 @@
 						<?php if ( is_user_logged_in() ) {
 							?>
                             <li class="nav-item">
-                                <form action="/questionnaire" method="post">
+                                <form action="/m3" method="post">
                                     <input type="submit" class="logout-button" name="m3_logout" value="Log Out" />
                                 </form>
 

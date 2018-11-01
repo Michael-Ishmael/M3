@@ -75,6 +75,21 @@ export function apiRenameQuestionnaire(questionnaireId, description){
             error => console.log('An error occurred: ', error)
         )
 }
+
+
+export function apiDeleteQuestionnaire(questionnaireId){
+
+    // A userId parameter is implicitly gained from being called within WordPress
+    return fetch(baseUrl + `/questionnaires/${questionnaireId}`,
+        {
+            method: "DELETE",
+        })
+        .then(
+            response => response.json(),
+            error => console.log('An error occurred: ', error)
+        )
+}
+
 /*
 *
 * Base URL =
@@ -82,7 +97,7 @@ export function apiRenameQuestionnaire(questionnaireId, description){
 *
 * Home
 *
-* Get questionnaires for user, show progress
+* Get account for user, show progress
 *
 * Create new questionnaire
 * Delete questionnaire (vis flag)

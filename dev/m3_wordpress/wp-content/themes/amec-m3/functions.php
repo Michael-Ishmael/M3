@@ -6,7 +6,11 @@ function m3_styles() {
 
 	wp_register_script('m3_globals_script', get_stylesheet_directory_uri() . '/js/m3_globals.js', array('jquery'));
 	wp_enqueue_script('m3_globals_script');
+	m3_setup_js_globals();
 
+}
+
+function m3_setup_js_globals() {
 	wp_localize_script('m3_globals_script', 'm3_globals_object', array(
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'redirecturl' => get_permalink(),
@@ -33,14 +37,17 @@ if( !defined('THEME_IMG_PATH')){
 
 
 add_action( 'wp_enqueue_scripts', 'm3_styles' );
+add_action( 'login_enqueue_scripts', 'm3_setup_js_globals' );
 
 function m3_rewrite_rules(){
 
-	$overlay_pages = array("questionnaire" );
+	$overlay_pages = array("m3" );
 
 	foreach ( $overlay_pages as $overlay_page ) {
 		$page = get_page_by_path($overlay_page);
-		add_rewrite_rule('^'.$overlay_page.'/(.+?)$','index.php?page_id='.$page->ID,'top');
+		add_rewrite_rule('^'.$overlay_page.'/(.*)?$','index.php?page_id='.$page->ID,'top');
+		add_rewrite_rule('^'. 'mstr' .'/(.*)?$','index.php?page_id='.$page->ID,'top');
+
 	}
 
 
@@ -64,6 +71,10 @@ function before_init(){
 		$user = wp_signon();
 		if( isset($user->ID)){
 			wp_set_current_user($user->ID);
+			if ( wp_validate_auth_cookie( '', 'logged_in' ) != $user->ID )
+			{
+				wp_set_auth_cookie( $user->ID );
+			}
 		}
 
 	} else if($_POST && array_key_exists('m3_logout', $_POST)){
@@ -74,6 +85,11 @@ function before_init(){
 		m3_register_new_user();
 	}
 }
+
+function m3_update_cookie( $logged_in_cookie ){
+	$_COOKIE[LOGGED_IN_COOKIE] = $logged_in_cookie;
+}
+add_action( 'set_logged_in_cookie', 'm3_update_cookie' );
 
 function m3_register_new_user(){
 
@@ -156,7 +172,7 @@ function redirect_logged_in_user()
 	}
 
 	/* we redirect logged in people*/
-	wp_redirect('/questionnaire');
+	wp_redirect('/m3');
 	exit;
 }
 

@@ -1,17 +1,65 @@
+.account-page {
+
+  min-height: 30em;
+
+  h2 {
+    margin-top: .4em;
+    color: $dark-gray;
+  }
+
+  .new-questionnaire-form {
+    p {
+      font-size: .8em;
+      color: $mid-gray;
+      font-style: italic;
+    }
+
+    button i {
+      color: #fff;
+      margin-left: .4em
+    }
+  }
+
+}
+
+.lge-icon {
+  width: 2em;
+  height: 2em;
+  i {
+    font-size: 1.8em;
+  }
+}
+
+.questionnaire-list {
+
+  padding-top: 2em;
+
+}
+
 .questionnaire-block {
 
   border: 2px solid $dark-gray;
-  border-radius: 3px;
+  border-radius: .5em;
   height: 4em;
-  text-align: center;
-  padding: 1em;
+
   margin-bottom: 1em;
   cursor: pointer;
 
-  &.blue {
-    border-color: $blue;
-    color: $blue;
 
+
+  h2 {
+    margin: 1em;
+    text-align: center;
+    font-size: 1em;
+    line-height: 1.4;
+    span {
+      vertical-align: top;
+    }
+
+    i {
+      margin-right: .4em;
+      font-size: 1.4em;
+    }
   }
 
   h3 {
@@ -21,8 +69,146 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: .2em;
+  }
+
+  .questionnaire-date {
+    text-align: left;
+    font-size: .6em;
+    font-style: italic;
+  }
+
+  .questionnaire-block-main {
+    padding: 1em;
+    margin-right: 34px;
+    position: relative;
+  }
+
+  .questionnaire-controls {
+    width: 34px;
+    float: right;
+    height: 100%;
+    position: relative;
+    color: white;
+    border-top-right-radius: .3em;
+    border-bottom-right-radius: .3em;
+    background-color: $dark-gray;
+
+    a {
+
+      width: 100%;
+      height: 2em;
+      display: inline-block;
+      text-align: center;
+
+      &.top {
+        padding-top: .2em;
+      }
+      &.top {
+        padding-bottom: .2em;
+      }
+    }
+  }
+
+  &.blue {
+    border-color: $blue;
+    color: $blue;
+
+    .questionnaire-controls {
+      background-color: $blue;
+
+    }
+
+  }
+
+  &.orange {
+    border-color: $orange;
+    color: $orange;
   }
 
 
 
+  &.deletion {
+
+    &.shake {
+      animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+
+    color: #fff;
+    background-color: $dark-gray;
+    padding: .6em;
+
+    &.blue {
+      background-color: $blue;
+      color: #fff;
+    }
+
+    p {
+      font-size: .7em;
+      margin: 0;
+      .trunc {
+        text-transform: uppercase;
+        width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+      }
+    }
+
+    .text-link {
+      display: inline-block;
+      float: right;
+      margin-top: -.8em;
+
+      a {
+        font-size: .6em;
+        display: inline-block;
+        margin-left: .3em;
+        margin-right: .3em;
+      }
+    }
+
+  }
+
+}
+
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }

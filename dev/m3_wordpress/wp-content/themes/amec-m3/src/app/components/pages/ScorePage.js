@@ -23,7 +23,7 @@ export const ScorePage = ({pageContent, pagination}) => {
     }
 
     return (
-        <BasePage nextEnabled={true} prevEnabled={true} currentPage={pagination.currentPage}
+        <BasePage nextEnabled={true} prevEnabled={true} pagination={pagination}
                   sectionHeader={pageContent.sectionHeader} progress={null}>
             {pageTextEl}
             <div>

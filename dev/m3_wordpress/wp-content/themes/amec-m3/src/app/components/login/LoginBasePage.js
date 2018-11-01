@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
 import {AuthChoiceButtons} from "./AuthChoiceButtons";
+import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 
 const viewStateType = {
     CHOOSE: "CHOOSE",
@@ -37,11 +38,10 @@ class LoginBasePage extends Component {
         return (<div className="container p-5">
             <div className="auth-container">
                 <Switch>
-                    <Route exact path='/questionnaire' component={AuthChoiceButtons}/>
-                    <Route exact path='/questionnaire/register' component={RegisterForm}/>
-                    <Route exect path='/questionnaire/login' component={LoginForm}/>
+                    <Route exact path={getAppRoute(M3_APP_ROUTES.HOME)} component={AuthChoiceButtons}/>
+                    <Route exact path={getAppRoute(M3_APP_ROUTES.REGISTER)} component={RegisterForm}/>
+                    <Route exect path={getAppRoute(M3_APP_ROUTES.LOGIN)} component={LoginForm}/>
                 </Switch>
-
 
             </div>
         </div>)

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {FormErrors} from "./FormErrors";
+import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 
 class LoginForm extends Component {
 
@@ -63,7 +64,7 @@ class LoginForm extends Component {
         return (
             <div className="row justify-content-center">
                 <div className="auth-choice col-6">
-                    <form id="login" className="p-2" action="/questionnaire" method="post">
+                    <form id="login" className="p-2" action={getAppRoute(M3_APP_ROUTES.HOME)} method="post">
                         <span className="pull-right"> <i className="fas fa-times" ></i> </span>
                         <h2>Log In</h2>
 
