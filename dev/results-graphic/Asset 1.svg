@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 189.79 180.9">
+    <defs>
+        <style>.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#5da54d;}</style>
+        <clipPath id="clip-path" transform="translate(0 -142.14)">
+            <polygon class="cls-1"
+                     points="127.64 97.05 79.65 0 78.75 0.44 126.51 97.01 74.36 185.34 133.89 281 85.23 330.72 85.94 331.42 135.15 281.14 75.53 185.32 127.64 97.05"/>
+        </clipPath>
+    </defs>
+    <title>Asset 1</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <g class="cls-2">
+                <rect class="cls-3" width="189.79" height="180.9"/>
+            </g>
+        </g>
+    </g>
+</svg>

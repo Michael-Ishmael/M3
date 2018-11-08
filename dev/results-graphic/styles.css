@@ -1,0 +1,9 @@
+main {
+  position: relative; }
+  main .container {
+    position: relative;
+    margin: 200px auto;
+    width: 800px;
+    height: 500px; }
+
+/*# sourceMappingURL=styles.css.map */

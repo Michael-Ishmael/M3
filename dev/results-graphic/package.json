@@ -1,0 +1,15 @@
+{
+  "name": "m3-results-graphic",
+  "version": "1.0.0",
+  "description": "SVG animation project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Ishmael",
+  "license": "MIT",
+  "dependencies": {
+    "gsap": "^2.0.2",
+    "path-data-polyfill": "^1.0.3"
+  }
+}

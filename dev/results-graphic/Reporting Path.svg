@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.98 259.43">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#e34275;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;stroke-dasharray:6
+            6;}
+        </style>
+    </defs>
+    <title>Reporting Path</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="paths">
+            <polyline id="Reporting_Path" data-name="Reporting Path" class="cls-1"
+                      points="9.11 1 32.74 17.14 12.22 22.09 1 50.02 5.96 79.6 16.01 89.74 29.42 99.52 44.48 149.09 71.98 157.21 47.22 186.63 66.86 226.85 12.52 258.43"/>
+        </g>
+    </g>
+</svg>
