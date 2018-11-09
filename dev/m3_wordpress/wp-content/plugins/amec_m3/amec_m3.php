@@ -15,6 +15,7 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/questionnaire-builder.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/custom-ajax-auth.php' );
 
 
 
@@ -66,6 +67,15 @@ add_action( 'rest_api_init', function () {
 			}*/
 	) );
 
+	register_rest_route( 'm3/v1', '/questionnaires/(?P<questionnaireId>[\d]+)/scores', array(
+		'methods'  => 'PUT',
+		'callback' => 'set_scores'
+		/*,
+			'permission_callback' => function () {
+				return current_user_can( 'edit_others_posts' );
+			}*/
+	) );
+
 	register_rest_route( 'm3/v1', '/questionnaires/(?P<questionnaireId>[\d]+)/recommendations', array(
 		'methods'  => 'GET',
 		'callback' => 'get_recommendations'
@@ -98,6 +108,17 @@ add_action( 'rest_api_init', function () {
 		'methods'  => 'DELETE',
 		'callback' => 'delete_questionnaire'
 	) );
+
+
+	register_rest_route( 'm3/v1', '/benchmark-categories', array(
+		'methods'  => 'GET',
+		'callback' => 'get_benchmarks'
+		/*,
+			'permission_callback' => function () {
+				return current_user_can( 'edit_others_posts' );
+			}*/
+	) );
+
 
 } );
 
@@ -150,8 +171,39 @@ function get_scores( $request ) {
 		$questionnaire_id = $params["questionnaireId"];
 	}
 
+	if ( isset( $params["benchmarkFilterId"] ) ) {
+		$benchmark_filter_id = $params["benchmarkFilterId"];
+	} else {
+		$benchmark_filter_id = -1;
+	}
+
 	if ( isset( $questionnaire_id ) ) {
-		$data = get_scores_for_questionnaire( $questionnaire_id );
+		$data = get_scores_for_questionnaire( $questionnaire_id, $benchmark_filter_id );
+	} else {
+		$data = [];
+	}
+
+	return new WP_REST_Response( $data, 200 );
+
+}
+
+function get_benchmarks( $request) {
+
+	$data = get_benchmark_categories();
+	return new WP_REST_Response( $data, 200 );
+
+}
+
+function set_scores( $request ) {
+
+	$params = $request->get_params();
+
+	if ( isset( $params["questionnaireId"] ) ) {
+		$questionnaire_id = $params["questionnaireId"];
+	}
+
+	if ( isset( $questionnaire_id ) ) {
+		$data = set_scores_for_questionnaire( $questionnaire_id );
 	} else {
 		$data = [];
 	}

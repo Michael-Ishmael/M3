@@ -47,6 +47,25 @@ function mapRecSet(recSet, recLabel) {
 
 }
 
+function getRecSetHtml(r, i, rowClass) {
+
+    return (<tr className={rowClass} key={i}>{
+
+        r.map((c, j) => {
+            if (i === 0 && j === 0) {
+                return (<th key={i + '_' + j} rowSpan={c.rowSpan}>
+                    <div className="section-head rotate">{c.content}</div>
+                </th>)
+            } else {
+                return (<td key={i + '_' + j} rowSpan={c.rowSpan}>{c.content}</td>)
+            }
+
+        })
+
+    }</tr>)
+
+}
+
 export const RecommendationPage = (props) => {
 
     let content;
@@ -81,43 +100,13 @@ export const RecommendationPage = (props) => {
                     <tbody>
 
                     {
-                        getRecSetRows(props.strengths, "Strengths").map((r, i) => {
-
-                            return (<tr key={i}>{
-
-                                r.map((c, j) => {
-                                    if (i === 0 && j === 0) {
-                                        return (<th key={i + '_' + j} rowSpan={c.rowSpan}>{c.content}</th>)
-                                    } else {
-                                        return (<td key={i + '_' + j} rowSpan={c.rowSpan}>{c.content}</td>)
-                                    }
-
-                                })
-
-                            }</tr>)
-
-                        })}
+                        getRecSetRows(props.strengths, "Strengths").map((r, i) => getRecSetHtml(r, i, 'strengths'))}
                     <tr className="split">
                         <td colSpan="4"/>
                     </tr>
 
                     {
-                        getRecSetRows(props.actions, "Actions").map((r, i) => {
-
-                            return (<tr key={i}>{
-
-                                r.map((c, j) => {
-                                    if (i === 0 && j === 0) {
-                                        return (<th key={i + '_' + j} rowSpan={c.rowSpan}>{c.content}</th>)
-                                    } else {
-                                        return (<td key={i + '_' + j} rowSpan={c.rowSpan}>{c.content}</td>)
-                                    }
-
-                                })
-
-                            }</tr>)
-
-                        })}
+                        getRecSetRows(props.actions, "Actions").map((r, i) => getRecSetHtml(r, i, 'actions'))}
 
                     </tbody>
 
@@ -151,8 +140,8 @@ export const RecommendationPage = (props) => {
                 <div className="my-5 p-1 row questionnaire-footer-controls">
                     <div className="col-6 text-left">
                         <NavLink
-                            to={getAppRoute(M3_APP_ROUTES.QUESTIONNAIRE_PAGE, {questionnaireId: props.questionnaireId})}
-                            className="btn btn-outline-secondary">Back to Questionnaire</NavLink>
+                            to={getAppRoute(M3_APP_ROUTES.SCORES_PAGE, {questionnaireId: props.questionnaireId})}
+                            className="btn btn-outline-secondary">Back to Scores</NavLink>
                     </div>
                     <div className="col-6 text-right">
                         <NavLink

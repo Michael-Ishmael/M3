@@ -8,11 +8,16 @@ class ScoreGraphic extends Component {
     }
 
     componentDidMount() {
-        playScores(this.props.scores)
+        playScores(this.props.scores, this.props.filterLabel)
     }
 
-    componentDidUpdate() {
-        playBenchmarks(this.props.scores)
+    componentDidUpdate(prevProps) {
+        if (prevProps.scores !== this.props.scores)
+            playBenchmarks(this.props.scores, 1 ,this.props.filterLabel)
+    }
+
+    componentWillUnmount(){
+
     }
 
     render() {
@@ -87,6 +92,10 @@ class ScoreGraphic extends Component {
 
                     <clipPath id="t_bench_text_clip">
                         <rect id="t_bench_text_mask" x="50" y="320" width="100" height="80"/>
+                    </clipPath>
+
+                    <clipPath id="benchmark_header_clip">
+                        <rect id="t_bench_text_mask" x="20" y="0" width="300" height="80"/>
                     </clipPath>
 
                     <linearGradient id="Gold_02" x1="751" y1="534" x2="751" y2="164" gradientUnits="userSpaceOnUse">
@@ -180,7 +189,8 @@ class ScoreGraphic extends Component {
                                 r="6"
                                 stroke="#ba7802"/>
 
-                        <circle id="r_bench_circ" className="path-end-circle" visibility="visible" cx="50" cy="-20" r="6"
+                        <circle id="r_bench_circ" className="path-end-circle" visibility="visible" cx="50" cy="-20"
+                                r="6"
                                 stroke="#91999d"/>
                         <circle id="p_bench_circ" className="path-end-circle" visibility="visible" cx="230" cy="-20"
                                 r="6"
@@ -267,6 +277,15 @@ class ScoreGraphic extends Component {
                                     </text>
                                 </g>
                             </g>
+
+                            <g id="benchmark_header_text_container" clipPath="url(#benchmark_header_clip)">
+                                <g id="benchmark_header_text_grp" transform="translate(20 20)">
+                                    <text x="0" y="0" fontSize="14" fill="#fff">
+                                        <tspan x="0" dy=".6em" fontSize=".8em">Benchmark scores:</tspan>
+                                        <tspan id="benchmark_header_text" dx=".4em">Avg. all respondents</tspan>
+                                    </text>
+                                </g>
+                            </g>
                         </g>
 
                     </g>
@@ -283,6 +302,7 @@ ScoreGraphic.propTypes = {
         score: PropTypes.number.isRequired,
         benchmarkScore: PropTypes.number.isRequired,
     })),
+    filterLabel: PropTypes.string.isRequired
 };
 
 export default ScoreGraphic

@@ -15,7 +15,7 @@ def create_questionnaires(sheet_name):
 	field_arr = []
 	questionnaire_id = "xx"
 
-	for c in range(2, 62):
+	for c in range(62, 63):
 		r = 0
 		for row in ws.rows:
 			answer_id = None

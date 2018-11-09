@@ -57,7 +57,7 @@ function m3_rewrite_rules(){
 	foreach ( $overlay_pages as $overlay_page ) {
 		$page = get_page_by_path($overlay_page);
 		add_rewrite_rule('^'.$overlay_page.'/(.*)?$','index.php?page_id='.$page->ID,'top');
-		add_rewrite_rule('^'. 'mstr' .'/(.*)?$','index.php?page_id='.$page->ID,'top');
+		//add_rewrite_rule('^'. 'mstr' .'/(.*)?$','index.php?page_id='.$page->ID,'top');
 
 	}
 

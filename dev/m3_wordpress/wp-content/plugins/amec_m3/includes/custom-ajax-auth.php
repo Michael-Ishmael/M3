@@ -1,30 +1,39 @@
 <?php
+
+function ajax_enqueue_scripts(){
+
+	wp_register_script('ajax-auth-script', get_stylesheet_directory_uri() . '/js/m3_globals.js');
+	wp_enqueue_script('ajax-auth-script');
+
+	//NEED this code to force remove last user cookie before generation of nonces
+	$user = wp_get_current_user();
+	if(is_wp_error($user) || $user->ID == 0){
+		unset($_COOKIE[LOGGED_IN_COOKIE]);
+	}
+
+	$noncey = wp_create_nonce('ajax-logged-in-nonce');
+
+	wp_localize_script('ajax-auth-script', 'ajaxAuthObj', array(
+		'ajaxUrl' => admin_url('admin-ajax.php'),
+		'redirectUrl' => get_permalink(),
+		'logoutNonce' => wp_create_nonce('ajax-logout-nonce'),
+		'loginNonce' => wp_create_nonce('ajax-login-nonce'),
+		'passwordResetNonce' => wp_create_nonce('password-reset-nonce'),
+		'registerNonce' => wp_create_nonce('ajax-register-nonce'),
+		'loggedInNonce' => wp_create_nonce('ajax-logged-in-nonce'),
+		'restNonce' => wp_create_nonce('wp_rest'),
+		'restUrl' => esc_url_raw( rest_url() ),
+		'lostPasswordUrl' => wp_lostpassword_url(),
+		'resetPasswordUrl' => site_url( "wp-login.php?action=resetpass")
+
+	));
+
+}
+
+add_action( 'wp_enqueue_scripts', 'ajax_enqueue_scripts' );
+
 function ajax_auth_init()
 {
-    wp_register_style('ajax-auth-style', get_stylesheet_directory_uri() . '/css/ajax-auth-style.css');
-    wp_enqueue_style('ajax-auth-style');
-
-    wp_register_script('validate-script', get_stylesheet_directory_uri() . '/js/jquery.validate.js', array('jquery'));
-    wp_enqueue_script('validate-script');
-
-    wp_register_script('ajax-auth-script', get_stylesheet_directory_uri() . '/js/ajax-auth-script.js', array('jquery'));
-    wp_enqueue_script('ajax-auth-script');
-
-    wp_localize_script('ajax-auth-script', 'ajax_auth_object', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'redirecturl' => get_permalink(),
-        'loadingmessage' => __('Sending user info, please wait...'),
-        'logout_nonce' => wp_create_nonce('ajax-logout-nonce'),
-        'login_nonce' => wp_create_nonce('ajax-login-nonce'),
-        'password_reset_nonce' => wp_create_nonce('password-reset-nonce'),
-        'register_nonce' => wp_create_nonce('ajax-register-nonce'),
-        'logged_in_nonce' => wp_create_nonce('ajax-logged-in-nonce'),
-        'rest_nonce' => wp_create_nonce('wp_rest'),
-        'resturl' => esc_url_raw( rest_url() ),
-        'lost_password_url' => wp_lostpassword_url(),
-        'reset_password_url' => site_url( "wp-login.php?action=resetpass")
-
-    ));
 
     // Enable the user with no privileges to run ajax_login() in AJAX
     add_action('wp_ajax_nopriv_ajaxlogin', 'ajax_login');
@@ -168,7 +177,17 @@ function auth_user_login($user_login, $password, $login)
 
     $user_signon = wp_signon($info, false);
     if (is_wp_error($user_signon)) {
-        echo json_encode(array('loggedIn' => false, 'message' => __('Wrong username or password.')));
+    	$errorKey = "UNKNOWN";
+    	if(isset($user_signon->errors)){
+    		if(isset($user_signon->errors["invalid_email"])) {
+			    $errorKey = "WRONG_EMAIL";
+		    } else if(isset($user_signon->errors["incorrect_password"])){
+				    $errorKey = "WRONG_PASSWORD";
+		    }
+		    //TODO: Handle user expired etc
+	    }
+
+        echo json_encode(array('loggedIn' => false, 'errorKey' => $errorKey, 'message' => __('Wrong username or password.'), 'wpError' => $user_signon));
     } else {
         wp_set_current_user($user_signon->ID);
         $draft_framework_id = -1;
@@ -191,11 +210,10 @@ function auth_user_login($user_login, $password, $login)
             'userId' => $user_signon->ID,
             'displayName' => $user_signon->display_name,
             'draftFrameworkId' => $draft_framework_id,
-            'redirectUrl' => home_url( 'home/framework/interactive-framework-3/' )
+            'redirectUrl' => home_url( '/m3/' )
         ));
     }
 
-    die();
 }
 
 function auth_user_logged_in()

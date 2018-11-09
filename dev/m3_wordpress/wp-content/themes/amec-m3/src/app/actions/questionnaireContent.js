@@ -1,8 +1,8 @@
 import {  apiLoadQuestionnaireContent} from "../services/m3Api"
 
 export const QuestionnaireContentActions = {
-    REQUEST_QUESTIONNAIRE_CONTENT: "REQUEST_RECOMMENDATIONS",
-    RECEIVE_QUESTIONNAIRE_CONTENT: "RECEIVE_RECOMMENDATIONS"
+    REQUEST_QUESTIONNAIRE_CONTENT: "REQUEST_QUESTIONNAIRE_CONTENT",
+    RECEIVE_QUESTIONNAIRE_CONTENT: "RECEIVE_QUESTIONNAIRE_CONTENT"
 };
 
 export const requestQuestionnaireContent = () => ({

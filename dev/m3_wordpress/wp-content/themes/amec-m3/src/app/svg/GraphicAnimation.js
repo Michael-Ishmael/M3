@@ -3,7 +3,7 @@ import {TimelineLite} from "gsap";
 import {Bounce} from "gsap/EasePack"
 
 
-export const playScores = (scores) => {
+export const playScores = (scores, filterLabel) => {
 
     const scoreObj = scoreArrayToObject(scores);
     let dur = .8;
@@ -13,14 +13,36 @@ export const playScores = (scores) => {
         .add(getScoreTl("p_score", scoreObj["p_score"], dur))
         .add(getScoreTl("i_score", scoreObj["i_score"], dur))
         .add(getScoreTl("t_score", scoreObj["t_score"], dur))
-        .delay(2).play();
+        .delay(1).play();
 
-    playBenchmarks(scores, 8);
+    playBenchmarks(scores, 8, filterLabel);
 
 
 };
 
-export const playBenchmarks = (scores, delay) => {
+/*export const listenForSizeChanges =() => {
+    clientHeight = document.getElementById('score-graphic-container')
+    var lastHeight = document.body.clientHeight, newHeight;
+    (function run(){
+        newHeight = elm.clientHeight;
+        if( lastHeight != newHeight )
+            callback();
+        lastHeight = newHeight;
+
+        if( elm.onElementHeightChangeTimer )
+            clearTimeout(elm.onElementHeightChangeTimer);
+
+        elm.onElementHeightChangeTimer = setTimeout(run, 200);
+    })();
+    var clientHeight = document.getElementById('myDiv').clientHeight;
+};
+
+
+export const removeListenForSizeChanges =() => {
+
+};*/
+
+export const playBenchmarks = (scores, delay, filterLabel) => {
 
     delay = delay || 1;
     const scoreObj = scoreArrayToObject(scores);
@@ -28,11 +50,31 @@ export const playBenchmarks = (scores, delay) => {
     let dur = .5;
     const benchMasterTl = new TimelineLite();
     benchMasterTl
-        .add(getScoreTl("r_bench", scoreObj["r_bench"], dur, true), 0)
-        .add(getScoreTl("p_bench", scoreObj["p_bench"], dur, true), 0)
-        .add(getScoreTl("i_bench", scoreObj["i_bench"], dur, true), 0)
-        .add(getScoreTl("t_bench", scoreObj["t_bench"], dur, true), 0)
-        .delay(delay).play();
+        .add(getBenchmarkLabelTween(dur, filterLabel), delay)
+        .add(getScoreTl("r_bench", scoreObj["r_bench"], dur, true), delay)
+        .add(getScoreTl("p_bench", scoreObj["p_bench"], dur, true), delay)
+        .add(getScoreTl("i_bench", scoreObj["i_bench"], dur, true), delay)
+        .add(getScoreTl("t_bench", scoreObj["t_bench"], dur, true), delay)
+    //.delay(delay);//.play();
+
+
+};
+
+const getBenchmarkLabelTween = (dur, filterLabel) => {
+
+    filterLabel = filterLabel || "Avg. all respondents";
+    const label = document.getElementById("benchmark_header_text_grp");
+    const text = document.getElementById("benchmark_header_text");
+
+    if (label) {
+        if(text){
+            text.textContent = filterLabel;
+        }
+        const x = 20; //label.getBBox().x;
+        const width = label.getBBox().width;
+        TweenLite.set(label, {x: x - width - 20})
+        return TweenLite.to(label, dur, {x: x});
+    }
 
 
 };
@@ -134,6 +176,9 @@ function getTargetY(pc) {
 
 
 function calculateEndPoint(path, t) {
+
+    //if(!path || isNaN(t)) return 0;
+
     let yOrigin = Number(t.attributes.y.value);
     let height = Number(t.attributes.height.value);
     let y = (yOrigin + height) - (height * t._gsTransform.scaleY);
@@ -190,6 +235,7 @@ function getXForY(pathNode, yVal) {
         return dy * dy;
     }
 
-    return best.x;
+    if(best) return best.x;
+    return 0;
 
 }

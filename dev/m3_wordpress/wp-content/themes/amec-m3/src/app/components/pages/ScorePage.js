@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
 import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
@@ -6,53 +6,74 @@ import LoaderSpinner from "../LoaderSpinner";
 import BenchmarkFilter from "../BenchmarkFilter";
 import ScoreGraphic from "../../svg/ScoreGraphic";
 
-export const ScorePage = (props) => {
+export class ScorePage extends Component {
 
-    let content, graphic;
+    constructor(props) {
+        super(props);
+        this.defaultFilterLabel ="Avg. All Respondents";
+        this.initialiseState();
 
-    if (!props.ready) {
-        if (props.shouldFetch) {
-            props.fetchScores(props.questionnaireId);
-            props.fetchRecommendations(props.questionnaireId);
+    }
+
+    initialiseState() {
+        this.state = {
+            filterLabel: this.defaultFilterLabel
         }
-        content = (
-            <div className="page-loader">
-                <LoaderSpinner size={20}/></div>
-        );
-        graphic = null;
-    } else {
+    }
 
-        let scoreTable = null;
-        if (props.scores) {
-            scoreTable = props.scores.map(dimension => {
-                return (<tr key={dimension.description}>
-                    <td>{dimension.description}</td>
-                    <td>{"Score: " + Math.round(dimension.score).toString()}</td>
-                    <td>{"BenchmarkScore: " + Math.round(dimension.benchmarkScore).toString()}</td>
-                </tr>)
-            })
-        }
+    onFilterChosen (filterId, label) {
+        this.props.fetchScores(this.props.questionnaireId, filterId);
+        label = label || this.defaultFilterLabel;
+        this.setState({filterLabel: label});
+    };
 
-        const onFilterChosen = (filterId) => {
-            props.fetchScores(props.questionnaireId, filterId)
-        };
+    render() {
 
-        let benchmarkFilter = null;
-        if (props.benchmarksReady) {
+        let content, graphic;
 
-            benchmarkFilter = (<BenchmarkFilter
-                filterCategories={props.filterCategories}
-                filters={props.filters}
-                onFilterChosen={onFilterChosen}
-            />)
-        }
+        if (!this.props.ready) {
+            if (this.props.shouldFetch) {
+                this.props.fetchScores(this.props.questionnaireId);
+                this.props
+                    .fetchRecommendations(this.props.questionnaireId);
+            }
+
+            content = (
+                <div className="page-loader">
+                    <LoaderSpinner size={20}/></div>
+            );
+            graphic = null;
+        } else {
+
+/*            let scoreTable = null;
+            if (this.props.scores) {
+                scoreTable = this.props.scores.map(dimension => {
+                    return (<tr key={dimension.description}>
+                        <td>{dimension.description}</td>
+                        <td>{"Score: " + Math.round(dimension.score).toString()}</td>
+                        <td>{"BenchmarkScore: " + Math.round(dimension.benchmarkScore).toString()}</td>
+                    </tr>)
+                })
+            }*/
 
 
-        content = (<div className="row">
-            <div className="col-12 benchmark-filter-container">
-                {benchmarkFilter}
-            </div>
-{/*            <div className="col-6 col-sm-4">
+
+            let benchmarkFilter = null;
+            if (this.props.benchmarksReady) {
+
+                benchmarkFilter = (<BenchmarkFilter
+                    filterCategories={this.props.filterCategories}
+                    filters={this.props.filters}
+                    onFilterChosen={(filterId, filterLabel) => this.onFilterChosen(filterId, filterLabel)}
+                />)
+            }
+
+
+            content = (<div className="row">
+                <div className="col-12 benchmark-filter-container">
+                    {benchmarkFilter}
+                </div>
+                {/*            <div className="col-6 col-sm-4">
                 <table>
                     <tbody>
                     {scoreTable}
@@ -61,56 +82,58 @@ export const ScorePage = (props) => {
                 </table>
             </div>*/}
 
-        </div>);
+            </div>);
 
-        graphic = (<div className="score-graphic-container">
-            <ScoreGraphic scores={props.scores}></ScoreGraphic>
-        </div>)
+            graphic = (
+                <div className="score-graphic-container">
+                <ScoreGraphic scores={this.props.scores} filterLabel={this.state.filterLabel}/>
+            </div>)
 
+        }
+
+        return (
+            <div className="questionnaire-container">
+                <div className="questionnaire-body">
+                    <div className="row">
+                        <div className="col-3">
+                            <NavLink to={getAppRoute(M3_APP_ROUTES.ACCOUNT)} activeClassName="m3-active"
+                                     className="btn btn-sm btn-outline-secondary m3-nav-button"><i
+                                className="fas fa-arrow-alt-circle-left"/> My Questionnaires</NavLink>
+                        </div>
+                        <div className="col-6">
+                            <h3 className="text-center">
+                                <div className="pb-2 center-div">Your Results</div>
+                            </h3>
+                        </div>
+                        <div className="col-3 col-sm-2">
+                        </div>
+                    </div>
+                    <div className="section-text intro">
+
+                    </div>
+
+
+                    {content}
+                    {graphic}
+
+
+                </div>
+                <div className="my-5 p-1 row questionnaire-footer-controls">
+                    <div className="col-6 text-left">
+                        <NavLink
+                            to={getAppRoute(M3_APP_ROUTES.QUESTIONNAIRE_PAGE, {questionnaireId: this.props.questionnaireId})}
+                            className="btn btn-outline-secondary">Back to Questionnaire</NavLink>
+                    </div>
+                    <div className="col-6 text-right">
+                        <NavLink
+                            to={getAppRoute(M3_APP_ROUTES.RECOMMENDATIONS_PAGE, {questionnaireId: this.props.questionnaireId})}
+                            className="btn btn-outline-secondary">Recommendations</NavLink>
+                    </div>
+                </div>
+            </div>
+
+        );
     }
-
-    return (
-        <div className="questionnaire-container">
-            <div className="questionnaire-body">
-                <div className="row">
-                    <div className="col-3">
-                        <NavLink to={getAppRoute(M3_APP_ROUTES.ACCOUNT)} activeClassName="m3-active"
-                                 className="btn btn-sm btn-outline-secondary m3-nav-button"><i
-                            className="fas fa-arrow-alt-circle-left"/> My Questionnaires</NavLink>
-                    </div>
-                    <div className="col-6">
-                        <h3 className="text-center">
-                            <div className="pb-2 center-div">Your Results</div>
-                        </h3>
-                    </div>
-                    <div className="col-3 col-sm-2">
-                    </div>
-                </div>
-                <div className="section-text intro">
-
-                </div>
-
-
-                {content}
-                { graphic }
-
-
-            </div>
-            <div className="my-5 p-1 row questionnaire-footer-controls">
-                <div className="col-6 text-left">
-                    <NavLink
-                        to={getAppRoute(M3_APP_ROUTES.QUESTIONNAIRE_PAGE, {questionnaireId: props.questionnaireId})}
-                        className="btn btn-outline-secondary">Back to Questionnaire</NavLink>
-                </div>
-                <div className="col-6 text-right">
-                    <NavLink
-                        to={getAppRoute(M3_APP_ROUTES.RECOMMENDATIONS_PAGE, {questionnaireId: props.questionnaireId})}
-                        className="btn btn-outline-secondary">Recommendations</NavLink>
-                </div>
-            </div>
-        </div>
-
-    );
 };
 
 

@@ -29,6 +29,19 @@
 
   }
 
+  .clear-filter-icon {
+    font-size: 1.4em;
+    color: $light-gray !important;
+    line-height: 1.6em;
+    vertical-align: middle;
+    margin-left: .2em;
+    cursor: pointer;
+
+    &:hover {
+      color: $dark-gray !important;
+    }
+  }
+
   .ui.dropdown {
 
     .menu {

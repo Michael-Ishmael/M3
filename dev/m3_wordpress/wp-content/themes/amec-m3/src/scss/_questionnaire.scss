@@ -154,13 +154,50 @@ main {
 
     .recommendation-table {
 
+      th {
+        border-top: none;
+      }
+
       td {
         font-size: .6em;
+        vertical-align: top;
+        border-left: 4px solid #fafafa;
+        border-right: 10px solid #fafafa;
+        border-top: 1px solid #fafafa;
       }
+
+      tr.strengths {
+
+        th {
+          color: #879887;
+          font-weight: normal;
+        }
+
+        background-color: #e7eae8;
+
+        &:nth-of-type(odd){
+          background-color: #d2d8d2;
+        }
+      }
+
+      tr.actions {
+
+        th {
+          color: #ad969d;
+          font-weight: normal;
+        }
+
+        background-color: #f5e6eb;
+
+        &:nth-of-type(odd){
+          background-color: #e8d5db;
+        }
+      }
+
 
       thead > tr {
         th {
-
+          border-bottom: none;
           &.rec-col {
             width: 30%;
           }
@@ -172,17 +209,24 @@ main {
           > div {
 
             padding: 2px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 3em;
+            line-height: 3em;
+            line-height: 3em;
+            vertical-align: middle;
 
             &.reporting {
-              background-color: $mustard;
+              background-image: url("/wp-content/themes/amec-m3/images/reporting_flag.png");
             }
 
             &.planning {
-              background-color: $blue;
+              background-image: url("/wp-content/themes/amec-m3/images/planning_flag.png");
             }
 
             &.impact {
-              background-color: $green;
+              background-image: url("/wp-content/themes/amec-m3/images/impact_flag.png");
             }
 
           }
@@ -206,9 +250,6 @@ main {
         border-right: solid 1px inherit;
       }
 
-      td {
-        vertical-align: top;
-      }
     }
 
   }
@@ -217,4 +258,17 @@ main {
     font-size: .8em;
   }
 
+}
+
+.rotate {
+  /* FF3.5+ */
+  -moz-transform: rotate(-90.0deg);
+  /* Opera 10.5 */
+  -o-transform: rotate(-90.0deg);
+  /* Saf3.1+, Chrome */
+  -webkit-transform: rotate(-90.0deg);
+  /* IE8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+  /* Standard */
+  transform: rotate(-90.0deg);
 }

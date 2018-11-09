@@ -80,34 +80,148 @@ function compose_user_responses( $questionnaire_id ) {
 
 }
 
-function get_scores_for_questionnaire( $questionnaire_id ) {
+function get_scores_for_questionnaire( $questionnaire_id, $benchmark_filter_id = - 1 ) {
 
 	global $wpdb;
 
-	$sql  = "select d.description, sum(a.score) as dimScore, d.max_score, 100 * sum(a.score) / d.max_score as pc, d.weighting from response r join answer a on r.answer_id = a.answer_id   join question q on r.question_id = q.question_id   join dimension d on q.dimension_id = d.dimension_id where r.questionnaire_id = %d group by d.description, d.max_score";
-	$sql  = $wpdb->prepare( $sql, $questionnaire_id );
-	$list = $wpdb->get_results( $sql, "OBJECT" );
+	$sql        = "select d.description, sum(a.score) as dimScore, d.max_score, 100 * sum(a.score) / d.max_score as pc, d.weighting from response r join answer a on r.answer_id = a.answer_id   join question q on r.question_id = q.question_id   join dimension d on q.dimension_id = d.dimension_id where r.questionnaire_id = %d group by d.description, d.max_score";
+	$sql        = $wpdb->prepare( $sql, $questionnaire_id );
+	$dimensions = $wpdb->get_results( $sql, "OBJECT" );
 
+	$benchmarks = get_benchmark_scores( $benchmark_filter_id );
+
+	$list          = [];
 	$total_factors = array();
-	foreach ( $list as $dimension ) {
-		$dimension->pc        = (float) $dimension->pc;
-		$dimension->weighting = (float) $dimension->weighting;
+	foreach ( $dimensions as $dimension ) {
+		$item                 = new stdClass();
+		$item->description    = $dimension->description;
+		$item->score          = (float) $dimension->pc;
+		$item->benchmarkScore = get_benchmark_score_for_dimension( $benchmarks, $dimension->description );
 		$total_factors[]      = $dimension->pc * $dimension->weighting;
-
+		$list[]               = $item;
 	}
 
-	$total_score              = new stdClass();
-	$total_score->description = "Total";
-	$total_score->dimScore    = - 1;
-	$total_score->max_score   = - 1;
-	$total_score->pc          = array_sum( $total_factors );
-	$total_score->weighting   = 1;
+	$total_score                 = new stdClass();
+	$total_score->description    = "Total";
+	$total_score->score          = array_sum( $total_factors );
+	$total_score->benchmarkScore = get_benchmark_score_for_dimension( $benchmarks, "Total" );
+
 
 	$list[] = $total_score;
 
 	return $list;
 
 }
+
+function get_benchmark_score_for_dimension( $benchmarks, $dimension_desc ) {
+
+	switch ( strtolower( $dimension_desc ) ) {
+		case "reporting":
+			return (float) $benchmarks->r_score;
+			break;
+		case "planning":
+			return (float) $benchmarks->p_score;
+			break;
+		case "impact":
+			return (float) $benchmarks->i_score;
+			break;
+		case "total":
+			return (float) $benchmarks->t_score;
+			break;
+		default:
+			return 0;
+			break;
+	}
+
+}
+
+function get_benchmark_scores( $answer_id_filter = - 1 ) {
+
+	global $wpdb;
+
+	$answer_id_filter = (int)$answer_id_filter;
+
+	$answer_join_sql  = $answer_id_filter > - 1 ? " join response r on r.questionnaire_id = q.questionnaire_id " : "";
+	$answer_where_sql = $answer_id_filter > - 1 ? " and r.answer_id = %d " : "";
+
+	$sql = "select sum(q.reporting_score) / count(q.questionnaire_id) as r_score, sum(q.planning_score) / count(q.questionnaire_id) as p_score, sum(q.impact_score) / count(q.questionnaire_id) as i_score, sum(q.total_score) / count(q.questionnaire_id) as t_score
+			from questionnaire q
+  				" . $answer_join_sql . "
+			where q.completed = TRUE " . $answer_where_sql . ";";
+
+	if ( $answer_id_filter > - 1 ) {
+		$sql = $wpdb->prepare( $sql, $answer_id_filter );
+	}
+
+	$benchmark_scores = $wpdb->get_results( $sql, "OBJECT" );
+
+	return $benchmark_scores[0];
+
+}
+
+function get_benchmark_categories() {
+
+	global $wpdb;
+
+	$sql        = "select sub.category_id, sub.category_desc, max(sub.item_response_count) as max_response_count
+					from (
+					select q.category_id, c.category_desc, a.answer_id, count(r.response_id) as item_response_count
+					from question q
+					       join category c on q.category_id = c.category_id
+					       join answer a on q.question_id = a.question_id
+					       left join response r on q.question_id = r.question_id and a.answer_id = r.answer_id
+					group by q.category_id, a.answer_id) sub
+					group by sub.category_id, sub.category_desc
+					order by sub.category_id, sub.category_desc
+					;";
+	$categories = $wpdb->get_results( $sql, "OBJECT" );
+
+
+	$sql     = "select q.category_id, a.answer_id, a.answer_text, count(r.response_id) as response_count
+			from question q
+			       join category c on q.category_id = c.category_id
+			       join answer a on q.question_id = a.question_id
+			       left join response r on q.question_id = r.question_id and a.answer_id = r.answer_id
+			group by q.category_id, a.answer_text, a.answer_id
+			order by q.category_id, a.answer_id ;";
+	$filters = $wpdb->get_results( $sql, "OBJECT" );
+
+	return [ "filterCategories" => array_map("map_filter_category", $categories), "filters" =>  array_map( "map_filter",  $filters )];
+
+}
+
+function set_scores_for_questionnaire( $questionnaire_id ) {
+
+	$scores = get_scores_for_questionnaire( $questionnaire_id );
+
+	$r_score = 0;
+	$p_score = 0;
+	$i_score = 0;
+	$t_score = 0;
+
+	foreach ( $scores as $item ) {
+		$dimension = $item->description;
+
+		if ( $dimension == "Reporting" ) {
+			$r_score = $item->score;
+		} elseif ( $dimension == "Planning" ) {
+			$p_score = $item->score;
+		} elseif ( $dimension == "Impact" ) {
+			$i_score = $item->score;
+		} elseif ( $dimension == "Total" ) {
+			$t_score = $item->score;
+		}
+	}
+
+	global $wpdb;
+
+	$sql = "update questionnaire set completed = TRUE, reporting_score = %d, planning_score = %d, impact_score = %d, total_score = %d where questionnaire_id = %d;";
+	$sql = $wpdb->prepare( $sql, $r_score, $p_score, $i_score, $t_score, $questionnaire_id );
+	$wpdb->query( $sql );
+
+	return $scores;
+}
+
 
 function get_recommendations_for_questionnaire( $questionnaire_id ) {
 
@@ -136,8 +250,9 @@ function map_recommendation( $type, $questionnaire_id ) {
 			$strength_map[ $db_strength->dimension ] = array();
 		}
 
-		$strength_map[ $db_strength->dimension ][] = array( "text"  => $db_strength->r_text,
-		                                                    "order" => $db_strength->r_order
+		$strength_map[ $db_strength->dimension ][] = array(
+			"text"  => $db_strength->r_text,
+			"order" => $db_strength->r_order
 		);
 	}
 
@@ -187,7 +302,7 @@ EOT;
 	$sql  = $wpdb->prepare( $sql, 66, $user_id );
 	$list = $wpdb->get_results( $sql, "OBJECT" );
 
-	return array_map("map_questionnaire", $list);
+	return array_map( "map_questionnaire", $list );
 
 }
 
@@ -208,7 +323,7 @@ function create_questionnaire_for_user( $user_id, $description ) {
 
 }
 
-function hide_questionnaire($questionnaire_id) {
+function hide_questionnaire( $questionnaire_id ) {
 	// Only hide so we can restore
 
 	global $wpdb;
@@ -219,10 +334,9 @@ function hide_questionnaire($questionnaire_id) {
 
 	return array(
 		"questionnaireId" => $questionnaire_id,
-		"hidden"     => true,
+		"hidden"          => true,
 	);
 }
-
 
 
 function rename_questionnaire( $questionnaire_id, $description ) {
@@ -376,7 +490,7 @@ function map_questionnaire( $db_questionnaire ) {
 	$j_questionnaire                     = new stdClass();
 	$j_questionnaire->questionnaireId    = (int) $db_questionnaire->questionnaire_id;
 	$j_questionnaire->description        = $db_questionnaire->description;
-	$j_questionnaire->timestamp          = rest_get_date_with_gmt( $db_questionnaire->timestamp , false)[1];
+	$j_questionnaire->timestamp          = rest_get_date_with_gmt( $db_questionnaire->timestamp, false )[1];
 	$j_questionnaire->percentageComplete = (float) $db_questionnaire->percentage_complete;
 
 	return $j_questionnaire;
@@ -479,4 +593,21 @@ function map_responses( $db_responses ) {
 	}
 
 	return $j_responses;
+}
+
+function map_filter_category( $db_category ) {
+	$j_category        = new stdClass();
+	$j_category->categoryId  = (int)$db_category->category_id;
+	$j_category->description  = $db_category->category_desc;
+	$j_category->maxResponseCount  = (int)$db_category->max_response_count;
+	return $j_category;
+}
+
+function map_filter( $db_filter) {
+	$j_filter        = new stdClass();
+	$j_filter->categoryId  = (int)$db_filter->category_id;
+	$j_filter->filterId  =(int) $db_filter->answer_id;
+	$j_filter->description  = $db_filter->answer_text;
+	$j_filter->responseCount  = (int)$db_filter->response_count;
+	return $j_filter;
 }

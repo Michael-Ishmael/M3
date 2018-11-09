@@ -22,7 +22,13 @@ const paths = {
     'responses': { name: 'm3_responses' },
 };
 
-//initialState = getStateFromCookies(initialState, paths);
+/*
+* TODO:
+*
+*
+*
+*
+* */
 
 const store = createStore(
     rootReducer,
