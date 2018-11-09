@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import RegisterForm from "./RegisterForm";
-import {NavLink} from "react-router-dom";
-import LoginForm from "./LoginForm";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
 import {AuthChoiceButtons} from "./AuthChoiceButtons";
 import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
+import LoginContainer from "../../containers/LoginContainer";
 
 const viewStateType = {
     CHOOSE: "CHOOSE",
@@ -40,9 +38,8 @@ class LoginBasePage extends Component {
                 <Switch>
                     <Route exact path={getAppRoute(M3_APP_ROUTES.HOME)} component={AuthChoiceButtons}/>
                     <Route exact path={getAppRoute(M3_APP_ROUTES.REGISTER)} component={RegisterForm}/>
-                    <Route exect path={getAppRoute(M3_APP_ROUTES.LOGIN)} component={LoginForm}/>
+                    <Route exect path={getAppRoute(M3_APP_ROUTES.LOGIN)} render={(props) => (<LoginContainer {...props} />)} />
                 </Switch>
-
             </div>
         </div>)
 

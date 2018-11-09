@@ -27,12 +27,25 @@ const img = {
     },
 };
 
-const cssExtract = {
-    test: /\.scss$/,
-    use: [ MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+const fonts = {
+    test: /\.(woff|woff2|eot|ttf|svg)$/,
+    loader: "url-loader?limit=100000",
 };
 
+
+const cssExtract = {
+    test: /\.scss$/,
+    use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+};
+
+const cssOnly = {
+    test: /\.css$/,
+    use: ["style-loader", "css-loader"]
+};
+
+
 module.exports = {
+    mode: 'development',
     entry: {
         app: "./src"
     },
@@ -40,21 +53,21 @@ module.exports = {
         modules: ["node_modules"]
     },
     module: {
-        rules: [cssExtract, js, img]
+        rules: [cssExtract,  js, img, fonts]
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-/*        new HtmlWebpackPlugin({
-            filename: "index.php",
-            title: "AMEC M3",
-            template: "./src/pug/index.pug",
-            inject: false,
-            appMountId: "app"
-        }),*/
+        /*        new HtmlWebpackPlugin({
+                    filename: "index.php",
+                    title: "AMEC M3",
+                    template: "./src/pug/index.pug",
+                    inject: false,
+                    appMountId: "app"
+                }),*/
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
-        new BrowserSyncPlugin( {
+        new BrowserSyncPlugin({
                 proxy: "http://m3project.local:8888/m3",
                 files: [
                     '**/*.php',
@@ -65,7 +78,7 @@ module.exports = {
         )
     ],
     devtool: 'source-map',
-   devServer: {
+    devServer: {
         stats: "errors-only",
         host: process.env.HOST,
         port: process.env.PORT,

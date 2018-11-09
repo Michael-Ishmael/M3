@@ -1,8 +1,9 @@
-import fetch from "cross-fetch";
+import {apiGetScoresForQuestionnaire} from "../services/m3Api";
 
 export const ScoreActions = {
     REQUEST_SCORES: "REQUEST_SCORES",
-    RECEIVE_SCORES: "RECEIVE_SCORES"
+    RECEIVE_SCORES: "RECEIVE_SCORES",
+    CLEAR_SCORES: "CLEAR_SCORES",
 };
 
 
@@ -11,27 +12,26 @@ export const requestScores = (questionnaireId) => ({
     questionnaireId
 });
 
-export const receiveScores = (questionnaireId, json) => ({
+export const receiveScores = (questionnaireId, scoreResults) => ({
     type: ScoreActions.RECEIVE_SCORES,
     questionnaireId,
-    scores: json
+    scoreResults: scoreResults
 });
 
-export function fetchScores(questionnaireId) {
+export const clearScores = () => ({
+    type: ScoreActions.CLEAR_SCORES
+});
 
+export function fetchScores(questionnaireId, benchmarkFilterId) {
 
     return function (dispatch) {
 
-        dispatch(requestScores(questionnaireId));
+        dispatch(requestScores(questionnaireId, benchmarkFilterId));
 
-        return fetch(`/wp-json/m3/v1/questionnaires/${questionnaireId}/scores`)
-            .then(
-                response => response.json(),
-                error => console.log('An error occurred: ', error)
-            )
-            .then(json =>
-
-                dispatch(receiveScores(questionnaireId, json))
+        return apiGetScoresForQuestionnaire(questionnaireId, benchmarkFilterId)
+            .then(json => {
+                    return dispatch(receiveScores(questionnaireId, json));
+                }
             )
 
     }

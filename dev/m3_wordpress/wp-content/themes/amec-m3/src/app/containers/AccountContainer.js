@@ -1,5 +1,7 @@
 import React from "react";
 import {
+    clearRecommendations,
+    clearResponses, clearScores,
     fetchDeleteQuestionnaire,
     fetchNewQuestionnaire,
     fetchQuestionnaires,
@@ -8,36 +10,7 @@ import {
 import connect from "react-redux/es/connect/connect";
 import {getAppRoute, M3_APP_ROUTES} from "../services/pathProvider";
 import AccountPage from "../components/account/AccountPage";
-
-
-function handleRedirect(ownProps, pageLookup) {
-    let questionnaireId = getQuestionnaireIdParam(ownProps);
-    if (questionnaireId > -1 && pageLookup.redirectIndex) {
-        ownProps.history.push('/m3/account/' + questionnaireId + '/pages/' + pageLookup.redirectIndex);
-    } else {
-        ownProps.history.push('/m3/');
-    }
-}
-
-function getQuestionnaireIdParam(ownProps) {
-    if (ownProps.match && ownProps.match.params && ownProps.match.params.questionnaireId)
-        return getIntOrDefault(ownProps.match.params.questionnaireId, -1);
-    return -1;
-}
-
-function getPageIndexParam(ownProps) {
-    if (ownProps.match && ownProps.match.params && ownProps.match.params.pageId)
-        return getIntOrDefault(ownProps.match.params.pageId, 1);
-    return 1;
-}
-
-function getIntOrDefault(val, defaultVal) {
-    let parsed = Number.parseInt(val);
-    if (Number.isNaN(parsed)) {
-        return defaultVal;
-    }
-    return parsed;
-}
+import {fetchLogoutUser} from "../actions/auth";
 
 const mapStateToProps = (state, ownProps) => {
 
@@ -45,9 +18,9 @@ const mapStateToProps = (state, ownProps) => {
         ownProps.history.push(route);
     };
 
-    if(state.account ){
+    if (state.account) {
 
-        if(state.account.newCreatedQuestionnaire && state.account.newCreatedQuestionnaire.questionnaireId) {
+        if (state.account.newCreatedQuestionnaire && state.account.newCreatedQuestionnaire.questionnaireId) {
 
             return {
                 shouldRedirectToCreated: true,
@@ -86,15 +59,21 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
 
+    dispatch(clearResponses());
+    dispatch(clearScores());
+    dispatch(clearRecommendations());
+
     return {
         getAccountQuestionnaires: () =>
             dispatch(fetchQuestionnaires()),
-        createNewQuestionnaire: (newQuestionnaireName)  =>
+        createNewQuestionnaire: (newQuestionnaireName) =>
             dispatch(fetchNewQuestionnaire(newQuestionnaireName)),
-        renameQuestionnaire: (questionnaireId, newQuestionnaireName)  =>
+        renameQuestionnaire: (questionnaireId, newQuestionnaireName) =>
             dispatch(fetchRenameQuestionnaire(questionnaireId, newQuestionnaireName)),
-        deleteQuestionnaire: (questionnaireId)  =>
-            dispatch(fetchDeleteQuestionnaire(questionnaireId))
+        deleteQuestionnaire: (questionnaireId) =>
+            dispatch(fetchDeleteQuestionnaire(questionnaireId)),
+        logout: () =>
+            dispatch(fetchLogoutUser())
     };
 };
 

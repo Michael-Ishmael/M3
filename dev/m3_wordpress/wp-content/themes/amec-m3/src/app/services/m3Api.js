@@ -61,7 +61,6 @@ export function apiCreateQuestionnaireForUser(description){
 
 export function apiRenameQuestionnaire(questionnaireId, description){
 
-    // A userId parameter is implicitly gained from being called within WordPress
     return fetch(baseUrl + `/questionnaires/${questionnaireId}`,
         {
             method: "PUT",
@@ -79,13 +78,62 @@ export function apiRenameQuestionnaire(questionnaireId, description){
 
 export function apiDeleteQuestionnaire(questionnaireId){
 
-    // A userId parameter is implicitly gained from being called within WordPress
     return fetch(baseUrl + `/questionnaires/${questionnaireId}`,
         {
             method: "DELETE",
         })
         .then(
             response => response.json(),
+            error => console.log('An error occurred: ', error)
+        )
+}
+
+export function apiGetScoresForQuestionnaire(questionnaireId, benchmarkFilterId) {
+
+    const suffix = (benchmarkFilterId && benchmarkFilterId > 0)
+        ? `?benchmarkFilterId=${benchmarkFilterId}` : "";
+    return fetch(baseUrl + `/questionnaires/${questionnaireId}/scores${suffix}`)
+        .then(
+            response => response.json(),
+            error => console.log('An error occurred: ', error)
+        )
+}
+
+export function apiPushScoresForQuestionnaire(questionnaireId) {
+
+    return fetch(baseUrl + `/questionnaires/${questionnaireId}/scores`,
+    {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "X-WP-Nonce": nonce,
+        },
+    })
+        .then(
+            response => response.json(),
+            error => console.log('An error occurred: ', error)
+        )
+}
+
+export function apiGetRecommendationsForQuestionnaire(questionnaireId) {
+
+    return fetch(baseUrl + `/questionnaires/${questionnaireId}/recommendations`)
+        .then(
+            response => response.json(),
+            error => console.log('An error occurred: ', error)
+        )
+}
+
+export function apiGetBenchmarkCategories() {
+
+    return fetch(baseUrl + `/benchmark-categories`)
+        .then(
+            response => {
+                if(response.status !== 200){
+                    return [];
+                }
+                return response.json();
+            },
             error => console.log('An error occurred: ', error)
         )
 }

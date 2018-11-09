@@ -32,13 +32,29 @@
       border-color: $orange;
     }
 
-    i.fa, i.far {
-      font-size: 3em;
-      margin-bottom: .2em;
+    i.large-icon {
+        font-size: 3em;
+        margin-bottom: .2em;
+    }
+
+    i.fa-times {
+      font-size: 2em;
     }
   }
 
+
+  .forgot-link {
+    margin-top: -.8em;
+    font-size: .8em;
+  }
+
+  .error {
+    color: $danger;
+    font-size: .8em;
+  }
+
 }
+
 
 
 

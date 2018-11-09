@@ -1,6 +1,11 @@
 import {ScoreActions} from "../actions";
 
-const scores = (state = { isFetching: false, didInvalidate: false, dimensions: []}, action) => {
+const scores = (state = {
+    ready: false,
+    isFetching: false,
+    didInvalidate: false,
+    resultTable: []
+}, action) => {
     switch (action.type) {
         case ScoreActions.REQUEST_SCORES:
             return Object.assign({}, state, {
@@ -9,9 +14,16 @@ const scores = (state = { isFetching: false, didInvalidate: false, dimensions: [
             });
         case ScoreActions.RECEIVE_SCORES:
             return Object.assign({}, state, {
+                ready: true,
                 isFetching: false,
                 didInvalidate: false,
-                dimensions: action.scores
+                resultTable: action.scoreResults
+            });
+        case ScoreActions.CLEAR_SCORES:
+            return Object.assign({}, state, {
+                ready: false,
+                isFetching: false,
+                didInvalidate: false,
             });
         default:
             return state;

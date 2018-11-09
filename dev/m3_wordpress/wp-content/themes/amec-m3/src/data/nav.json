@@ -1,0 +1,10 @@
+{
+  "navItems" : [
+    { "label": "Home" },
+    { "label": "Questionnaire", "active": true },
+    { "label": "Supporting Material" },
+    { "label": "Resources" },
+    { "label": "Contact" },
+    { "label": "AMEC Website" }
+  ]
+}

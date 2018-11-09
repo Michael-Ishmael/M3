@@ -11,14 +11,39 @@ const PageTemplates = {
     RECOMMENDATIONS: "RECOMMENDATIONS",
 };
 
+export function questionnaireComplete(state) {
+    //TODO: Refactor out repetition
+
+    if(!(state || state.questionnaireContent || state.responses)) return false;
+
+    const q = state.questionnaireContent;
+    const routingFlags = gatherRoutingFlags(state.responses, q.questions, q.answers);
+    const pages = validateRoutingItems(q.pages, q.routingRules, routingFlags);
+
+    return allPagesComplete(pages, q, state.responses, routingFlags);
+
+}
+
 export function resolvePage(questionnaireContent, responses, questionnaireId, pageIndex) {
 
     const q = questionnaireContent;
     const routingFlags = gatherRoutingFlags(responses, q.questions, q.answers);
     const pages = validateRoutingItems(q.pages, q.routingRules, routingFlags);
-    const validatedPageIndex = Math.max(1, Math.min(pages.length, pageIndex));
+
+    let lastCompletedPageIndex = getLastCompletedPageIndex(pages, q, responses, routingFlags);
+    let validatedPageIndex;
+    if(pageIndex === -1){
+        validatedPageIndex = lastCompletedPageIndex + 1;
+        if(validatedPageIndex >= pages.length){
+            validatedPageIndex = 1;
+        }
+    } else {
+        validatedPageIndex=  Math.max(1, Math.min(pages.length, pageIndex));
+        validatedPageIndex = Math.min(validatedPageIndex, lastCompletedPageIndex + 1);
+    }
 
     if (validatedPageIndex !== pageIndex) {
+
         return {
             pageFound: false,
             redirectRequired: true,
@@ -37,7 +62,6 @@ export function resolvePage(questionnaireContent, responses, questionnaireId, pa
     if (page.questionIds) {
 
         questions = q.questions.filter(x => page.questionIds.indexOf(x.questionId) >= 0);
-
         questions = validateRoutingItems(questions, q.routingRules, routingFlags);
         answers = q.answers.filter(a => questions.map(q => q.questionId).indexOf(a.questionId) >= 0);
         answers = validateRoutingItems(answers, q.routingRules, routingFlags);
@@ -74,6 +98,39 @@ export function resolvePage(questionnaireContent, responses, questionnaireId, pa
 
 }
 
+function getLastCompletedPageIndex(pages, q, responses, routingFlags){
+
+    const allQuestionIds = Object.keys(responses);
+    let maxIndex = 0;
+    const sortedPages = pages.sort((a, b) => { return a.index - b.index } );
+    for (let i = 0; i < sortedPages.length; i++) {
+        const page = sortedPages[i];
+        const pageQuestions = q.questions.filter(p => page.questionIds.indexOf(p.questionId) >= 0);
+        const filteredQuestionIds = validateRoutingItems(pageQuestions, q.routingRules, routingFlags).map(vq => vq.questionId);
+        const allQuestionsAnswered = filteredQuestionIds.every(q => allQuestionIds.indexOf(q) > -1);
+        if(!allQuestionsAnswered)
+            break;
+        if(allQuestionsAnswered && page.index > maxIndex)
+            maxIndex = page.index
+    }
+    return maxIndex;
+}
+
+function allPagesComplete(pages, q, responses, routingFlags){
+    //TODO: Refactor out repetition
+    const allQuestionIds = Object.keys(responses);
+    const sortedPages = pages.sort((a, b) => { return a.index - b.index } );
+    for (let i = 0; i < sortedPages.length; i++) {
+        const page = sortedPages[i];
+        const pageQuestions = q.questions.filter(p => page.questionIds.indexOf(p.questionId) >= 0);
+        const filteredQuestionIds = validateRoutingItems(pageQuestions, q.routingRules, routingFlags).map(vq => vq.questionId);
+        const allQuestionsAnswered = filteredQuestionIds.every(q => allQuestionIds.indexOf(q) > -1);
+        if(!allQuestionsAnswered)
+            return false;
+    }
+    return true;
+}
+
 function buildPagination(questionnaireId, currentPage, pageCount) {
 
     let nextPage, nextLabel;
@@ -85,7 +142,8 @@ function buildPagination(questionnaireId, currentPage, pageCount) {
         nextLabel = "Next"
     }
     const nextUrl = `/m3/questionnaires/${questionnaireId}/${nextPage}`;
-    const prevUrl = `/m3/questionnaires/${questionnaireId}/pages/${currentPage - 1}`
+    const prevUrl = `/m3/questionnaires/${questionnaireId}/pages/${currentPage - 1}`;
+    const scoresUrl = `/m3/questionnaires/${questionnaireId}/scores`;
 
     return {
         currentPage: currentPage,
@@ -97,7 +155,8 @@ function buildPagination(questionnaireId, currentPage, pageCount) {
         prevLink: currentPage === 0 ? null : {
             url: prevUrl,
             label: "Previous"
-        }
+        },
+        scoresUrl
     };
 
 }

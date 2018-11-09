@@ -91,7 +91,7 @@ class QuestionnaireBlock extends Component {
         if (this.state.showEdit) {
             return content;
         } else {
-            return (<Link to={"/m3/questionnaires/" + this.props.questionnaireId + "/pages/1"}>
+            return (<Link to={"/m3/questionnaires/" + this.props.questionnaireId}>
                 {content}
             </Link>)
         }
@@ -109,7 +109,7 @@ class QuestionnaireBlock extends Component {
             />);
         } else {
             return (
-                <h3 title="Click to open questionnaire">{this.props.description}</h3>
+                <h4 title="Click to open questionnaire">{this.props.description}</h4>
             );
         }
     }

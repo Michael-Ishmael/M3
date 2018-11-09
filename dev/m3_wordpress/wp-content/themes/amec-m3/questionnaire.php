@@ -2,47 +2,43 @@
 /* Template Name: M3 Questionnaire Template */
 
 
-
-
 get_header(); ?>
-	<main>
-<!--        <a href="--><?php //echo wp_logout_url(); ?><!--" title="Logout">Logout</a>-->
-        <?php if ( is_user_logged_in()){
+    <main>
+        <!--        <a href="--><?php //echo wp_logout_url(); ?><!--" title="Logout">Logout</a>-->
+		<?php if ( is_user_logged_in() ) {
 
-	        $current_user = wp_get_current_user();
+			$current_user = wp_get_current_user();
 
-            ?>
-<div>
-    <span class="pull-right m-2">User: <?php echo $current_user->user_login  ?></span>
-</div>
-        <div id="app">
+			?>
+<!--            <div>
+                <span class="pull-right m-2">User: <?php /*echo $current_user->user_login */?></span>
+            </div>-->
+            <div id="app">
 
-        </div>
+            </div>
 
-        <?php
+			<?php
 
-        } else {
+		} else {
 
 
+			//  echo "ABC: " . $new_registration;
+			//user isn't logged in, create a login template and call from here
+			//get_template_part ( 'content', 'login' ); //create your login form at content-login.php file
+			//or you can use the wp built in function to load the default form
+			//wp_login_form();
+			//wp_register();
 
-          //  echo "ABC: " . $new_registration;
-            //user isn't logged in, create a login template and call from here
-            //get_template_part ( 'content', 'login' ); //create your login form at content-login.php file
-            //or you can use the wp built in function to load the default form
-            //wp_login_form();
-	        //wp_register();
-
-            ?>
+			?>
 
             <div id="app-register"></div>
 
-            <?php
+			<?php
 
-        } ?>
+		} ?>
 
 
-
-	</main>
+    </main>
 
 
 <?php get_footer(); ?>

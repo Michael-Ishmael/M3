@@ -3,7 +3,7 @@ import QuestionnaireBlock from "./QuestionnaireBlock";
 import NewQuestionnaireForm from "./NewQuestionnaireForm";
 import PropTypes from "prop-types";
 
-const colorClasses = ['blue', 'green'];
+const colorClasses = ['blue', 'green', 'purple', 'mustard'];
 
 class AccountPage extends Component {
 
@@ -39,11 +39,11 @@ class AccountPage extends Component {
         return (<div className="col-4 create-new">
             <div className="questionnaire-block orange"
                  onClick={() => this.createNewQuestionnaireClick()}>
-                <h2>
+                <h3>
                     <i className="fas fa-file-alt"/>
                     <span>Start new questionnaire...</span>
 
-                </h2>
+                </h3>
 
             </div>
         </div>)
@@ -52,7 +52,7 @@ class AccountPage extends Component {
     render() {
 
         if(this.props.shouldRedirectToCreated){
-            this.props.redirectFunc(this.props.redirectUrl)
+            this.props.redirectFunc(this.props.redirectUrl);
             return null
         }
 
@@ -84,7 +84,7 @@ class AccountPage extends Component {
                     {
 
                         questionnaires.map(q => (
-                            <QuestionnaireBlock {...q}
+                            <QuestionnaireBlock key={q.questionnaireId} {...q}
                                                 onDelete={(questionnaireId) => this.props.deleteQuestionnaire(questionnaireId)}
                                                 onRename={(questionnaireId, newName) => this.props.renameQuestionnaire(questionnaireId, newName)}
 
@@ -110,6 +110,7 @@ class AccountPage extends Component {
             <div className="account-page">
 
                 <h2>My Questionnaires</h2>
+                {/*<a onClick={() => this.props.logout()} >Log out (temp)</a>*/}
 
                 <div className="questionnaire-list">
 

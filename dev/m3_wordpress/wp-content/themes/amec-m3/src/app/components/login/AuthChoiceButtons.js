@@ -16,7 +16,7 @@ export const AuthChoiceButtons = () => (<div className="p-4">
             <NavLink to={ getAppRoute(M3_APP_ROUTES.REGISTER) }>
             <div className="auth-choice register">
                 <div>
-                    <i className="fa fa-user-plus"/>
+                    <i className="fa fa-user-plus large-icon"/>
                 </div>
                 <h4>Register as New User</h4>
             </div>
@@ -26,7 +26,7 @@ export const AuthChoiceButtons = () => (<div className="p-4">
             <NavLink to={ getAppRoute(M3_APP_ROUTES.LOGIN) }>
                 <div className="auth-choice login">
                     <div>
-                        <i className="far fa-arrow-alt-circle-right"/>
+                        <i className="far fa-arrow-alt-circle-right large-icon"/>
                     </div>
                     <h4>Sign In</h4>
                 </div>

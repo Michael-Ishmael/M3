@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import ScrollToTop from "./ScrollToTop";
+import LoaderSpinner from "./LoaderSpinner";
 
 class Questionnaire extends Component {
 
@@ -22,14 +23,23 @@ class Questionnaire extends Component {
 
     render() {
 
+        const loader = (<div className="page-loader">
+            <LoaderSpinner size={20}/></div>);
+
+        if (this.props.pageLookup.redirectRequired === true) {
+            if (this.props.pageLookup.redirectFunc)
+                this.props.pageLookup.redirectFunc(this.props.pageLookup.redirectIndex);
+            return (loader)
+        }
+
         if (!this.props.componentReady) {
 
-            return (<div>Loading Questionnaire...</div>)
+            return (loader)
 
         } else {
 
             return (<ScrollToTop>{
-                this.props.pageComponent
+                this.props.pageLookup.pageComponent
             }</ScrollToTop>)
         }
     }
@@ -43,7 +53,14 @@ Questionnaire.propTypes = {
     componentReady: PropTypes.bool.isRequired,
     fetchQuestionnaireContent: PropTypes.func.isRequired,
     fetchQuestionnaireResponses: PropTypes.func.isRequired,
-    pageComponent: PropTypes.object
+    pageLookup: PropTypes.shape({
+        pageFound: PropTypes.bool.isRequired,
+        redirectRequired: PropTypes.bool.isRequired,
+        redirectIndex: PropTypes.number.isRequired,
+        redirectFunc: PropTypes.func,
+        pageComponent: PropTypes.object
+    }).isRequired
+
 };
 
 

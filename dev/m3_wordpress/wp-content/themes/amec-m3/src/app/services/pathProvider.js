@@ -24,7 +24,7 @@ export function getAppRoute(area, params) {
         case M3_APP_ROUTES.QUESTIONNAIRE_START:
             return `${M3_BASE_PATH}/questionnaires/${params.questionnaireId}`;
         case M3_APP_ROUTES.QUESTIONNAIRE_PAGE:
-            return `${M3_BASE_PATH}/questionnaires/${params.questionnaireId}/pages/${params.pageId}`;
+            return `${M3_BASE_PATH}/questionnaires/${params.questionnaireId}/pages/${params.pageIndex}`;
         case M3_APP_ROUTES.SCORES_PAGE:
             return `${M3_BASE_PATH}/questionnaires/${params.questionnaireId}/scores`;
         case M3_APP_ROUTES.RECOMMENDATIONS_PAGE:

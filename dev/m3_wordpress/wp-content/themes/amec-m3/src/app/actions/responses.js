@@ -10,6 +10,7 @@ export const ResponseActions = {
     RECEIVE_RESPONSES: "RECEIVE_RESPONSES",
     REQUEST_SAVE_RESPONSE: "REQUEST_SAVE_RESPONSE",
     RECEIVE_RESPONSE_SAVED: "RECEIVE_RESPONSE_SAVED",
+    CLEAR_RESPONSES: "CLEAR_RESPONSES",
 };
 
 
@@ -56,13 +57,16 @@ export const receiveResponseSaved = (response, success) => ({
     success
 });
 
+export const clearResponses = () => ({
+    type: ResponseActions.CLEAR_RESPONSES
+});
 
 export function fetchResponses(questionnaireId) {
 
 
     return function (dispatch) {
 
-        dispatch(requestResponses(questionnaireId))
+        dispatch(requestResponses(questionnaireId));
 
 
         return fetch(`/wp-json/m3/v1/questionnaires/${questionnaireId}/responses`)

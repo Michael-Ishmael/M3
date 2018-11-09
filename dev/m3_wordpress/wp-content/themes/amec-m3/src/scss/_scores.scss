@@ -1,0 +1,44 @@
+@import "~semantic-ui-sass/scss/modules/dropdown";
+
+.benchmark-filter-container {
+  margin: 0 3em;
+}
+
+.benchmark-filters{
+
+  margin-bottom: .5em;
+
+  .visible.transition {
+    display: block !important;;
+  }
+
+  .ui.selection.dropdown {
+    padding: .4em .8em;
+    min-height: 0;
+    width: 14em;
+    display: inline-block;
+    .dropdown.icon {
+      margin: 0;
+      padding: 0;
+      top: 0.5em;
+    }
+
+    .text {
+      font-size: .8em;
+    }
+
+  }
+
+  .ui.dropdown {
+
+    .menu {
+
+      > .item {
+        font-size: .8em;
+      }
+
+    }
+
+  }
+
+}

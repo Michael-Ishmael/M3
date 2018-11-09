@@ -1,3 +1,12 @@
+$color-list: (
+  blue $blue,
+  green $green,
+  mustard $mustard,
+  orange $orange,
+  purple $purple
+);
+
+
 .account-page {
 
   min-height: 30em;
@@ -45,9 +54,7 @@
   margin-bottom: 1em;
   cursor: pointer;
 
-
-
-  h2 {
+  h3 {
     margin: 1em;
     text-align: center;
     font-size: 1em;
@@ -62,7 +69,7 @@
     }
   }
 
-  h3 {
+  h4 {
     font-size: .8em;
     text-transform: uppercase;
     width: 80%;
@@ -110,23 +117,26 @@
     }
   }
 
-  &.blue {
-    border-color: $blue;
-    color: $blue;
+  @each $value in $color-list {
 
-    .questionnaire-controls {
-      background-color: $blue;
+    &.#{nth($value, 1)} {
+      border-color: #{nth($value, 2)};
+      color:  #{nth($value, 2)};
+
+      .questionnaire-controls {
+        background-color:  #{nth($value, 2)};
+
+      }
 
     }
 
   }
-
+/*
   &.orange {
-    border-color: $orange;
-    color: $orange;
-  }
-
-
+    h3 {
+      color: $dark-gray;
+    }
+  }*/
 
   &.deletion {
 
@@ -141,11 +151,14 @@
     background-color: $dark-gray;
     padding: .6em;
 
-    &.blue {
-      background-color: $blue;
-      color: #fff;
-    }
+    @each $value in $color-list {
 
+      &.#{nth($value, 1)} {
+        background-color: #{nth($value, 2)};
+        color: #fff;
+      }
+
+    }
     p {
       font-size: .7em;
       margin: 0;

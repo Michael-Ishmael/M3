@@ -1,0 +1,14 @@
+$theme-colors: (
+    "primary": $blue,
+    "secondary": $orange,
+);
+
+.form-control {
+  font-size: .8rem;
+  padding: .2em .4em;
+  height: calc(2em + 2px);
+}
+
+label {
+  margin-bottom: .2em;
+}

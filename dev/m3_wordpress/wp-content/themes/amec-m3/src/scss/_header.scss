@@ -1,0 +1,60 @@
+header {
+  margin-top: .8em;
+  color: $white;
+
+  .main-header {
+
+    border-top: solid 1px $light-gray;
+    border-bottom: solid 1px $light-gray;
+
+
+    img.logo {
+      height: 3em;
+    }
+
+    .nav {
+      .nav-item {
+        font-size: .6em;
+        text-transform: uppercase;
+
+        .nav-link.active {
+          color: $orange;
+        }
+
+      }
+    }
+
+  }
+
+  h1.sub-header {
+    font-size: 3.4em;
+    font-weight: 900;
+    background: url("../images/header-image.jpg") no-repeat;
+    letter-spacing: 0.04em;
+  }
+
+  .logout-button{
+
+    display: inline-block;
+    padding: .2rem .75rem;
+    font-size: .6rem;
+    margin: .2rem 0.2rem;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid $orange;
+    background-color: $dark-gray;
+    color: $white;
+    text-transform: uppercase;
+    cursor: pointer;
+//    line-height: 1.5;
+  //  border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:hover {
+      background-color: $orange;
+    }
+
+  }
+
+}

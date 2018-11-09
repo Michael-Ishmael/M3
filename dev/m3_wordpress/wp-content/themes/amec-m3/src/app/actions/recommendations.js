@@ -1,8 +1,9 @@
-import fetch from "cross-fetch";
+import {apiGetRecommendationsForQuestionnaire} from "../services/m3Api";
 
 export const RecommendationActions = {
     REQUEST_RECOMMENDATIONS: "REQUEST_RECOMMENDATIONS",
-    RECEIVE_RECOMMENDATIONS: "RECEIVE_RECOMMENDATIONS"
+    RECEIVE_RECOMMENDATIONS: "RECEIVE_RECOMMENDATIONS",
+    CLEAR_RECOMMENDATIONS: "CLEAR_RECOMMENDATIONS",
 };
 
 
@@ -18,6 +19,11 @@ export const receiveRecommendations = (questionnaireId, json) => ({
     actions: json && json.actions ? json.actions: []
 });
 
+export const clearRecommendations = () => ({
+    type: RecommendationActions.CLEAR_RECOMMENDATIONS
+});
+
+
 export function fetchRecommendations(questionnaireId) {
 
 
@@ -26,11 +32,7 @@ export function fetchRecommendations(questionnaireId) {
         dispatch(requestRecommendations(questionnaireId));
 
 
-        return fetch(`/wp-json/m3/v1/questionnaires/${questionnaireId}/recommendations`)
-            .then(
-                response => response.json(),
-                error => console.log('An error occurred: ', error)
-            )
+        return apiGetRecommendationsForQuestionnaire(questionnaireId)
             .then(json =>
 
                 dispatch(receiveRecommendations(questionnaireId, json))

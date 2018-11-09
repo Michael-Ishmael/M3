@@ -1,6 +1,17 @@
 <?php
 
+add_filter('allowed_http_origins', 'add_allowed_origins');
+
+function add_allowed_origins($origins) {
+	$origins[] = 'http://m3project.local:3000';
+	$origins[] = 'http://localhost:3000';
+	return $origins;
+}
+
 function m3_styles() {
+
+	//wp_enqueue_style( 'semantic-ui', '//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css');
+
 	wp_enqueue_script( 'm3_scripts', get_stylesheet_directory_uri() . '/dist/app.js', array(), '1.0', true );
 	wp_enqueue_style( 'm3_styles', get_template_directory_uri() . '/dist/app.css', array(), date("H:i:s"));
 
@@ -79,7 +90,9 @@ function before_init(){
 
 	} else if($_POST && array_key_exists('m3_logout', $_POST)){
 
+		wp_logout();
 		wp_set_current_user(0);
+		//ob_clean();
 
 	} else if($_POST && array_key_exists('m3_register', $_POST)) {
 		m3_register_new_user();
