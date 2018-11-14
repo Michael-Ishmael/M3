@@ -8,9 +8,9 @@ import {
 import Question from '../components/questions/Question'
 
 
-const QuestionSelector = ({question, answers, classNames, onAnswer, questionnaireId}) => {
+const QuestionSelector = ({question, answers, classNames, onAnswer, showValidation, isError}) => {
 
-    return (<Question question={question} answers={answers} classNames={ classNames} onAnswer={onAnswer}  />)
+    return (<Question question={question} answers={answers} classNames={ classNames} onAnswer={onAnswer} showValidation={showValidation} isError={isError} />)
 };
 
 const mapStateToProps = (state, ownProps) => {

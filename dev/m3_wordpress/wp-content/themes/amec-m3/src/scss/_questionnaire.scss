@@ -1,3 +1,5 @@
+@import "~semantic-ui-sass/scss/modules/dropdown";
+
 main {
 
   .page-loader {
@@ -88,6 +90,11 @@ main {
             //max-width: 800px;
             color: $blue;
             margin: 0 15px 1.8em;
+
+            &.row-error {
+              color: $red;
+            }
+
           }
 
           &.first h2.question {
@@ -102,7 +109,50 @@ main {
               margin-top: -2.2em;
             }
           }
+
         }
+
+        .ui.selection.dropdown {
+          padding: .4em .8em;
+          min-height: 0;
+          width: 14em;
+          display: inline-block;
+          .dropdown.icon {
+            margin: 0;
+            padding: 0;
+            top: 0.5em;
+          }
+
+          input {
+            font-size: .8em;
+            padding-left: 1.4em;
+          }
+
+          .text {
+            font-size: .8em;
+            padding: 0.2em 0.4em;
+          }
+        }
+
+        .ui.dropdown {
+
+          min-width: 7em;
+          min-height: 2.2em;
+
+          .menu {
+
+            &.visible.transition {
+              display: block !important;
+            }
+
+            > .item {
+              font-size: .8em;
+            }
+
+          }
+
+        }
+
 
       }
 
@@ -140,6 +190,11 @@ main {
         color: $blue;
         font-size: 1em;
         font-weight: 500;
+
+        &.row-error {
+          color: $red
+        }
+
       }
 
       td, th.col-head {

@@ -274,7 +274,7 @@ function do_password_lost() {
 function replace_retrieve_password_message( $message, $key, $user_login, $user_data ) {
     // Create new message
     $msg  = __( 'Hello!' ) . "\r\n\r\n";
-    $msg .= sprintf( __( 'You asked us to reset your password for your AMEC Framework account using the email address %s.' ), $user_login ) . "\r\n\r\n";
+    $msg .= sprintf( __( 'You asked us to reset your password for your AMEC M3 account using the email address %s.' ), $user_login ) . "\r\n\r\n";
     $msg .= __( "If this was a mistake, or you didn't ask for a password reset, just ignore this email and nothing will happen." ) . "\r\n\r\n";
     $msg .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
     $msg .= site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login )) . "\r\n\r\n";
@@ -289,14 +289,14 @@ function redirect_to_custom_password_reset() {
         $user = check_password_reset_key( $_REQUEST['key'], $_REQUEST['login'] );
         if ( ! $user || is_wp_error( $user ) ) {
             if ( $user && $user->get_error_code() === 'expired_key' ) {
-                wp_redirect( home_url( 'home/framework/interactive-framework-3?rp=true&login=expiredkey' ) );
+                wp_redirect( home_url( 'm3/reset-password?rp=true&login=expiredkey' ) );
             } else {
-                wp_redirect( home_url( 'home/framework/interactive-framework-3?rp=true&login=invalidkey' ) );
+                wp_redirect( home_url( 'm3/reset-password?rp=true&login=invalidkey' ) );
             }
             die();
         }
 
-        $redirect_url = home_url( 'home/framework/interactive-framework-3/' );
+        $redirect_url = home_url( 'm3/reset-password' );
         $redirect_url = add_query_arg( 'rp', esc_attr( "true" ), $redirect_url );
         $redirect_url = add_query_arg( 'login', esc_attr( $_REQUEST['login'] ), $redirect_url );
         $redirect_url = add_query_arg( 'key', esc_attr( $_REQUEST['key'] ), $redirect_url );
@@ -314,10 +314,11 @@ function do_password_reset() {
         $user = check_password_reset_key( $rp_key, $rp_login );
 
         if ( ! $user || is_wp_error( $user ) ) {
-            if ( $user && $user->get_error_code() === 'expired_key' ) {
-                echo json_encode(array('success' => false, 'message' => __( "Your reset link has expired.  Please try again" ), 'tryAgain' => true));
+
+            if ( $user && ($user->get_error_code() === 'expired_key' || $user->get_error_code() === 'invalid_key')  ) {
+                echo json_encode(array('success' => false, 'errorKey' => "LINK_EXPIRED" , 'message' => __( "Your reset link has expired.  Please try again" ), 'tryAgain' => true));
             } else {
-                echo json_encode(array('success' => false, 'message' => __( "There has been an problem with this link. Please try again"), 'tryAgain' => true));
+                echo json_encode(array('success' => false, 'errorKey' => "UNKNOWN" , 'message' => __( "There has been an problem with this link. Please try again"), 'tryAgain' => true));
             }
             die();
         }
@@ -327,7 +328,7 @@ function do_password_reset() {
             if ( empty( $_POST['new_pass'] ) ) {
                 // Password is empty
 
-                echo json_encode(array('success' => false, 'message' => __( "No Password supplied" )));
+                echo json_encode(array('success' => false, 'errorKey' => "NO_PASSWORD" , 'message' => __( "No Password supplied" )));
                 die();
             }
 
@@ -337,9 +338,14 @@ function do_password_reset() {
             reset_password( $user,  $new_pass);
 
             auth_user_login($user->user_email, $new_pass, 'login');
-
+/*			echo json_encode(
+				array('success' => true,
+			                       'message' => __( "Your password has been reset" ),
+			          'redirectUrl' => home_url( '/m3/' )
+					)
+			);*/
             die();
-            //echo json_encode(array('success' => true, 'message' => __( "Your password has been reset" )));
+
         } else {
             echo "Invalid request.";
         }

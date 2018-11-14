@@ -6,7 +6,7 @@ import Sticky from "react-sticky-el";
 import {NavLink} from "react-router-dom";
 import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 
-const BasePage = ({nextEnabled, prevEnabled, pagination, sectionHeader, progress, children}) => {
+const BasePage = ({nextEnabled, prevEnabled, showValidation, pagination, sectionHeader, progress, children}) => {
 
     const progressBar = progress ? (<Sticky className="m3-progress-bar" scrollElement="window" boundaryElement="body">
         <Line percent={progress} strokeWidth=".5" strokeColor="#FE6105" strokeLinecap="square"/>
@@ -33,7 +33,7 @@ const BasePage = ({nextEnabled, prevEnabled, pagination, sectionHeader, progress
 
                 {children}
             </div>
-            <FooterControl nextEnabled={nextEnabled} prevEnabled={prevEnabled} pagination={pagination} gotoScoresEnabled={progress >= 99.4} />
+            <FooterControl nextEnabled={nextEnabled} prevEnabled={prevEnabled} showValidation={showValidation} pagination={pagination} gotoScoresEnabled={progress >= 100} />
         </div>
     );
 };

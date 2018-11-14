@@ -1,6 +1,7 @@
+import React from 'react'
 import {gatherRoutingFlags, validateRoutingItems} from "./routingServices";
-import {PageOne} from "../components/pages/PageOne";
-import {StandardPage} from "../components/pages/StandardPage";
+import PageOne from "../components/pages/PageOne";
+import StandardPage from "../components/pages/StandardPage";
 import TableQuestionPage from "../components/pages/TableQuestionPage";
 
 const PageTemplates = {
@@ -52,8 +53,7 @@ export function resolvePage(questionnaireContent, responses, questionnaireId, pa
         }
     }
 
-    let progress = Object.keys(responses).length / q.questions.length;
-    progress = Math.min(Math.round(progress * 100), 100);
+    let progress = calculateProgress(q, responses, routingFlags);
 
     const page = pages[validatedPageIndex - 1];
     const sectionHeader = q.sections.find(s => s.sectionId === page.sectionId).sectionName;
@@ -78,14 +78,26 @@ export function resolvePage(questionnaireContent, responses, questionnaireId, pa
 
     switch (page.template) {
         case PageTemplates.PAGE_ONE:
-            pageComponent = PageOne({pageContent, pagination, progress});
+            const pageO = ({pageContent, pagination, progress}) => {
+                return (<PageOne pageContent={pageContent} pagination={pagination} progress={progress}/>);
+
+            };
+            pageComponent = pageO({pageContent, pagination, progress});
             break;
         case PageTemplates.STANDARD_PAGE:
-            pageComponent = StandardPage({pageContent, pagination, progress});
+            const pageS = ({pageContent, pagination, progress}) => {
+                return (<StandardPage pageContent={pageContent} pagination={pagination} progress={progress}/>);
+
+            };
+            pageComponent = pageS({pageContent, pagination, progress});
             break;
         case PageTemplates.TABLE_QUESTIONS:
         default:
-            pageComponent = TableQuestionPage({pageContent, pagination, progress});
+            const pageT = ({pageContent, pagination, progress}) => {
+                return (<TableQuestionPage pageContent={pageContent} pagination={pagination} progress={progress}/>);
+
+            };
+            pageComponent = pageT({pageContent, pagination, progress});
             break;
     }
 
@@ -96,6 +108,14 @@ export function resolvePage(questionnaireContent, responses, questionnaireId, pa
         pageComponent
     }
 
+}
+
+function calculateProgress(q, responses, routingFlags){
+    const allRequiredQuestionIds = validateRoutingItems(q.questions, q.routingRules, routingFlags).map(q => (q.questionId));
+    const allRequiredResponses = Object.keys(responses).filter(k => allRequiredQuestionIds.indexOf(k) > -1);
+
+    let progress = allRequiredResponses.length / allRequiredQuestionIds.length;
+    return Math.min(Math.round(progress * 100), 100);
 }
 
 function getLastCompletedPageIndex(pages, q, responses, routingFlags){

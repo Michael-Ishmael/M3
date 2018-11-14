@@ -63,6 +63,52 @@ export function authLoginUser(userName, password) {
 
 }
 
+export function authSendPasswordLink(emailAddress) {
+
+    let authUrl = window.ajaxAuthObj.lostPasswordUrl;
+
+    return fetch(authUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `security=${window.ajaxAuthObj.passwordResetNonce}&user_login=${emailAddress}`
+    })
+        .then(
+            response => {
+                return response.json().then(authObj => {
+                    return authObj;
+                });
+
+            },
+            error => console.log('An error occurred: ', error)
+        )
+
+}
+
+
+export function authResetUserPassword(emailAddress, newPassword, key) {
+
+    let authUrl = window.ajaxAuthObj.resetPasswordUrl;
+
+    return fetch(authUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `security=${window.ajaxAuthObj.passwordResetNonce}&user_login=${emailAddress}&new_pass=${newPassword}&key=${key}`
+    })
+        .then(
+            response => {
+                return response.json().then(authObj => {
+                    return authObj;
+                });
+
+            },
+            error => console.log('An error occurred: ', error)
+        )
+
+}
 
 /*
 *

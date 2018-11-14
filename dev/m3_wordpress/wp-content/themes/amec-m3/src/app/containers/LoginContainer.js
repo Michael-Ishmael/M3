@@ -2,13 +2,10 @@ import React from "react";
 import connect from "react-redux/es/connect/connect";
 import {fetchLoginUser, fetchLogoutUser} from "../actions/auth";
 import LoginForm from "../components/login/LoginForm";
+import {fetchPasswordReset, fetchPasswordResetLink} from "../actions";
 
 
-const mapStateToProps = (state, ownProps) => {
-
-    const redirectFunc = (route) => {
-        ownProps.history.push(route);
-    };
+const mapStateToProps = (state) => {
 
     if(state.auth.loggedIn){
         return {
@@ -31,7 +28,11 @@ const mapDispatchToProps = (dispatch) => {
         loginUser: (userName, password) =>
             dispatch(fetchLoginUser(userName, password)),
         logoutUser: ()  =>
-            dispatch(fetchLogoutUser())
+            dispatch(fetchLogoutUser()),
+        requestResetLink: (emailAddress) =>
+            dispatch(fetchPasswordResetLink(emailAddress)),
+        resetUserPassword: (emailAddress, password) =>
+            dispatch(fetchPasswordReset(emailAddress, password)),
     };
 };
 

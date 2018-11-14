@@ -8,9 +8,9 @@ import {
 import TabledRadios from "../components/questions/TabledRadios";
 
 
-const TableQuestionSelector = ({questions, answers, onAnswer, questionnaireId}) => {
+const TableQuestionSelector = ({questions, answers, onAnswer, showValidation}) => {
 
-    return (<TabledRadios questions={questions} answers={answers} onAnswer={onAnswer}  />)
+    return (<TabledRadios questions={questions} answers={answers} onAnswer={onAnswer} showValidation={showValidation}  />)
 };
 
 const mapStateToProps = (state, ownProps) => {

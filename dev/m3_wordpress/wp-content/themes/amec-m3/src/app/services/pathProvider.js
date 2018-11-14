@@ -3,6 +3,8 @@ export const M3_APP_ROUTES = {
     HOME: "HOME",
     LOGIN: "LOGIN",
     REGISTER: "REGISTER",
+    LOST_PASSWORD: "LOST_PASSWORD",
+    RESET_PASSWORD: "RESET_PASSWORD",
     NEW_QUESTIONNAIRE: "NEW_QUESTIONNAIRE",
     QUESTIONNAIRE_START: "QUESTIONNAIRE_START",
     QUESTIONNAIRE_PAGE: "QUESTIONNAIRE_PAGE",
@@ -21,6 +23,10 @@ export function getAppRoute(area, params) {
             return `${M3_BASE_PATH}/login`;
         case M3_APP_ROUTES.REGISTER:
             return `${M3_BASE_PATH}/register`;
+        case M3_APP_ROUTES.LOST_PASSWORD:
+            return `${M3_BASE_PATH}/lost-password`;
+        case M3_APP_ROUTES.RESET_PASSWORD:
+            return `${M3_BASE_PATH}/reset-password`;
         case M3_APP_ROUTES.QUESTIONNAIRE_START:
             return `${M3_BASE_PATH}/questionnaires/${params.questionnaireId}`;
         case M3_APP_ROUTES.QUESTIONNAIRE_PAGE:

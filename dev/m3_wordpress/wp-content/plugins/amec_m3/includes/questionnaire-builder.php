@@ -54,6 +54,10 @@ function save_user_response( $response ) {
 
 		$sql = $wpdb->prepare( $sql, $questionnaire_id, $question_id, $answer_id, $answer_text );
 		$wpdb->query( $sql );
+
+		$sql              = "CALL clean_routing_responses(%d );";
+		$sql = $wpdb->prepare( $sql, $questionnaire_id);
+		$wpdb->query( $sql );
 	}
 
 }

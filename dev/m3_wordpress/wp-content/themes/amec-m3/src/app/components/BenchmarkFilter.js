@@ -7,6 +7,7 @@ class BenchmarkFilter extends Component {
     constructor(props) {
         super(props);
         this.initialiseState();
+
     }
 
     initialiseState() {
@@ -36,6 +37,7 @@ class BenchmarkFilter extends Component {
     }
 
     render() {
+
 
         const categoryOptions = this.props.filterCategories.map(c => ({
             key: c.categoryId,

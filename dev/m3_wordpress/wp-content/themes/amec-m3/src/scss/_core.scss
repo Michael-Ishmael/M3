@@ -25,7 +25,154 @@ body {
 
 }
 
-.container-fluid {
+/*h1, h2, h3 {
+  font-family: 'Open Sans', Roboto, "Helvetica Neue", sans-serif;
+}*/
+
+main.standard-page {
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  a {
+    color: $orange;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .team-message {
+
+    .inset-image {
+      float: right;
+      margin-left: 1em;
+      max-width: 400px;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
+    }
+
+  }
+
+  p.sign-off {
+
+    margin-top: 2em;
+    font-weight: bold;
+
+    .team {
+      font-weight: normal;
+      font-style: italic;
+    }
+
+  }
+
+  .contact {
+    border: 2px solid $orange;
+    padding: 4px;
+    color: #fff;
+
+    > div {
+      background-color: $orange;
+      padding: 1em;
+    }
+
+    h5 {
+      font-size: 1.9em;
+      margin: 0;
+    }
+
+    p {
+      color: #fff;
+      margin-bottom: .2em;
+      font-weight: 400;
+      //font-size: .8rem;
+    }
+
+    a {
+      color: #023463;
+      font-weight: 500;
+      font-size: 1.4em;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+  }
+
+  .video-link {
+    padding: 1em;
+    background-color: #e4e4e4;
+    border-radius: 10px;
+    border: 1px solid #d0cbcb;
+
+    img {
+      width: 100%;
+    }
+
+  }
+
+  .twitter-feed-container {
+
+    border: 1px solid #d8d8d8;
+    border-top-right-radius: .5em;
+    border-top-left-radius: .5em;
+
+    h4 {
+      padding: 1rem;
+      //background-color: #d8d8d8;
+      color: #023463;
+      margin: 0;
+    }
+
+    .twitter-feed {
+
+      background-color: #eeeeee;
+      overflow: scroll;
+
+      height: 300px;
+
+      p {
+        padding: 1em .5em;
+        margin: 0;
+
+        &.alt {
+          background-color: #d8d8d8;
+        }
+      }
+
+    }
+
+  }
+
+  .action-link {
+    color: #fff;
+    margin-top: 1em;
+
+    background-color: $m3-col-impact;
+
+    a {
+      padding: 0.9em;
+      display: block;
+      color: #fff;
+      font-size: 1.1em;
+      text-transform: uppercase;
+
+      i {
+        margin-left: 4px;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+  }
 
 }
 
@@ -39,6 +186,7 @@ a {
 
 }
 
-
-button:focus {outline:0;}
+button:focus {
+  outline: 0;
+}
 

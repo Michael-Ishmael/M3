@@ -5,6 +5,8 @@ import Switch from "react-router-dom/es/Switch";
 import {AuthChoiceButtons} from "./AuthChoiceButtons";
 import {getAppRoute, M3_APP_ROUTES} from "../../services/pathProvider";
 import LoginContainer from "../../containers/LoginContainer";
+import ResetContainer from "../../containers/ResetContainer";
+import LostPasswordContainer from "../../containers/LostPasswordContainer";
 
 const viewStateType = {
     CHOOSE: "CHOOSE",
@@ -38,6 +40,8 @@ class LoginBasePage extends Component {
                 <Switch>
                     <Route exact path={getAppRoute(M3_APP_ROUTES.HOME)} component={AuthChoiceButtons}/>
                     <Route exact path={getAppRoute(M3_APP_ROUTES.REGISTER)} component={RegisterForm}/>
+                    <Route exact path={getAppRoute(M3_APP_ROUTES.LOST_PASSWORD)} render={(props) => (<LostPasswordContainer {...props} /> )} />
+                    <Route exact path={getAppRoute(M3_APP_ROUTES.RESET_PASSWORD)} render={(props) => (<ResetContainer {...props} /> )} />
                     <Route exect path={getAppRoute(M3_APP_ROUTES.LOGIN)} render={(props) => (<LoginContainer {...props} />)} />
                 </Switch>
             </div>

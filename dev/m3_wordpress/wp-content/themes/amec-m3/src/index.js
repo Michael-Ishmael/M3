@@ -6,11 +6,10 @@ import {applyMiddleware, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './app/reducers'
 import App from './app/App'
-// import 'semantic-ui-css/semantic.min.css';
 import "./scss/main.scss"
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import reduxCookiesMiddleware from 'redux-cookies-middleware';
 import ScrollToTop from "./app/components/ScrollToTop";
+import DropDown from "bootstrap/js/dist/dropdown"
 import {
     fetchQuestionnaireContent,
 } from "./app/actions";
@@ -34,8 +33,7 @@ const store = createStore(
     rootReducer,
     initialState,
     applyMiddleware(
-        thunkMiddleware,
-        reduxCookiesMiddleware(paths)
+        thunkMiddleware
     )
 );
 
@@ -44,6 +42,11 @@ if( !(initialState.questionnaireContent && initialState.questionnaireContent.loa
     store.dispatch(fetchQuestionnaireContent());
 
 }
+
+let img = new Image();
+img.src = '/wp-content/themes/amec-m3/images/mountain_bg.png';
+
+
 
 let appEl = document.getElementById('app');
 if(appEl){

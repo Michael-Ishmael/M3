@@ -1,4 +1,5 @@
 import {getAppRoute, M3_APP_ROUTES} from "./pathProvider";
+import querystring from 'querystring'
 
 
 export function handleRedirect(ownProps, redirectIndex) {
@@ -36,6 +37,33 @@ export const splitParagraphs = (text) => {
     return lines.filter(l => l && l.trim().length > 0 );
 };
 
+
+export function getPasswordResetLoginParam(ownProps) {
+    if (ownProps.match && ownProps.match.params && ownProps.match.params.login){
+        return ownProps.match.params.login;
+    } else {
+        const parsed = querystring.parse(location.search);
+        if(parsed.login){
+            return parsed.login;
+        } else {
+            return null;
+        }
+    }
+
+}
+
+export function getPasswordResetKeyParam(ownProps) {
+    if (ownProps.match && ownProps.match.params && ownProps.match.params.key){
+        return ownProps.match.params.key;
+    } else {
+        const parsed = querystring.parse(location.search);
+        if(parsed.key){
+            return parsed.key;
+        } else {
+            return null;
+        }
+    }
+}
 
 
 export const calculateProgress = (responses, totalQuestionCount) => {

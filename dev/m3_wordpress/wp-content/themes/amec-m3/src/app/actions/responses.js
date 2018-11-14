@@ -108,8 +108,11 @@ export function saveResponse(response) {
                 response => response.ok,
                 error => console.log('An error occurred: ', error)
             )
-            .then(success =>
-                dispatch(receiveResponseSaved(response, success))
+            .then(success => {
+                    dispatch(fetchResponses(response.questionnaireId));
+                return dispatch(receiveResponseSaved(response, success));
+                }
+
             )
             .then(() =>
                 dispatch(fetchScores(response.questionnaireId))

@@ -13,6 +13,8 @@ function m3_styles() {
 	//wp_enqueue_style( 'semantic-ui', '//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css');
 
 	wp_enqueue_script( 'm3_scripts', get_stylesheet_directory_uri() . '/dist/app.js', array(), '1.0', true );
+	//<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	wp_enqueue_style( 'open_sans', "https://fonts.googleapis.com/css?family=Open+Sans", array());
 	wp_enqueue_style( 'm3_styles', get_template_directory_uri() . '/dist/app.css', array(), date("H:i:s"));
 
 	wp_register_script('m3_globals_script', get_stylesheet_directory_uri() . '/js/m3_globals.js', array('jquery'));
@@ -189,17 +191,101 @@ function redirect_logged_in_user()
 	exit;
 }
 
+function m3_nav($str_location){
 
-/*add_action('check_admin_referer', 'logout_without_confirm', 10, 2);
-function logout_without_confirm($action, $result)
-{
-	/**
-	 * Allow logout without confirmation
+	$wrap_class_string = 'nav';
+	if($str_location == 'header') $wrap_class_string .= ' justify-content-end';
+	if($str_location == 'footer') $wrap_class_string .= ' justify-content-center';
+	if($str_location == 'sticky') $wrap_class_string .= ' justify-content-center';
 
-	if ($action == "log-out") {  //&& !isset($_GET['_wpnonce'])
-		$redirect_to = isset($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : '/questionnaire';
-		$location = str_replace('&amp;', '&', wp_logout_url($redirect_to));
-		header("Location: $location");
-		die;
+	wp_nav_menu(
+		array(
+			'theme_location'  => 'header-menu',
+			'menu'            => '',
+			'container'       => 'div',
+			'container_class' => 'menu-container pull-right',
+			'container_id'    => '',
+			'menu_class'      => 'nav',
+			'menu_id'         => "m3-menu",
+			'echo'            => true,
+			'fallback_cb'     => 'wp_page_menu',
+			'before'          => '',
+			'after'           => '',
+			'link_before'     => '',
+			'link_after'      => '',
+			'items_wrap'      => '<ul class="' . $wrap_class_string .'">%3$s</ul>',
+			'depth'           => 0,
+			'walker'          => new M3_Walker_Nav_Menu()
+		)
+	);
+
+}
+
+class M3_Walker_Nav_Menu extends Walker_Nav_Menu {
+
+	var $db_fields = array(
+		'parent' => 'menu_item_parent',
+		'id'     => 'db_id'
+	);
+
+	function start_lvl(&$output, $depth = 0, $args = []) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul class=\"dropdown-menu dropdown-menu-right\">\n";
 	}
-}*/
+
+	function end_lvl( &$output, $depth = 0, $args = array() ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "$indent</ul>\n";
+	}
+}
+
+function str_add_menu_classes($menu_list, $args){
+
+	$home_key = null;
+	$privacy_key = null;
+	foreach ( $menu_list as $key=>$menu_item ) {
+		array_push($menu_item->classes, 'nav-item');
+		if($args->theme_location=='header-menu' && $menu_item->post_name=='home'){
+			$home_key = $key;
+		}
+		if($menu_item->title=="Privacy Notice"){
+			$privacy_key = $key;
+		}
+	}
+	if($args->menu_id == 'header' && $home_key !== null) unset($menu_list[$home_key]);
+	if($args->menu_id != 'footer' && $privacy_key !== null) unset($menu_list[$privacy_key]);
+
+	return $menu_list;
+}
+
+function str_add_menu_link_atts($atts, $item) {
+	$att_class_names = "nav-link";
+	if($item->title == get_post()->post_title) $att_class_names .= ' active';
+	if(in_array("menu-item-has-children", $item->classes)){
+		$att_class_names .= ' dropdown-toggle';
+		$atts['data-toggle'] = "dropdown";
+		$atts['role'] = "button";
+		$atts['aria-haspopup'] = "true";
+		$atts['aria-expanded'] = "false";
+	}
+	if($item->menu_item_parent != "0"){
+		$att_class_names .= ' dropdown-item';
+	}
+	$atts['class'] = $att_class_names;
+	return $atts;
+}
+
+function register_m3_menu(){
+
+	register_nav_menus(array( // Using array to specify more menus if needed
+		'header-menu' => __('Main M3 Menu', 'amec-m3'), // Main Navigation
+		//'sidebar-menu' => __('Sidebar Menu', 'amec-m3'), // Sidebar Navigation
+		//'extra-menu' => __('Extra Menu', 'amec-m3') // Extra Navigation if needed (duplicate as many as you need!)
+	));
+
+}
+
+
+add_action('init', 'register_m3_menu'); // Add HTML5 Blank Menu
+add_filter('wp_nav_menu_objects', 'str_add_menu_classes', 10, 2);
+add_filter('nav_menu_link_attributes', 'str_add_menu_link_atts', 10, 2);

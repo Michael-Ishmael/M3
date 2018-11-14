@@ -6,7 +6,9 @@ const auth = (
         loggedIn: false,
         userId: -1,
         userName: null,
-        displayName: null
+        displayName: null,
+        linkSent: false,
+        redirectUrl: null
     }, action) => {
 
     switch (action.type) {
@@ -46,9 +48,40 @@ const auth = (
             let loginInfo = action.loginInfo || {};
             return Object.assign({}, state, {
                 isFetching: false,
-                loginFailed: loginInfo.errorKey,
+                loginFailed: loginInfo.errorKey != null,
                 ...loginInfo
             });
+
+        case AuthActions.REQUEST_PASSWORD_RESET_LINK:
+            return Object.assign({}, state, {
+
+                isFetching: true,
+                loginFailed: false,
+            });
+        case AuthActions.RECEIVE_PASSWORD_RESET_LINK_SENT:
+            let linkInfo = action.resetInfo || {};
+            return Object.assign({}, state, {
+                linkSent: linkInfo.success,
+                isFetching: false,
+                loginFailed: linkInfo.errorKey,
+                ...linkInfo
+            });
+
+        case AuthActions.REQUEST_RESET_PASSWORD:
+            return Object.assign({}, state, {
+                isFetching: true,
+                loginFailed: false,
+            });
+        case AuthActions.RECEIVE_PASSWORD_RESET:
+            let resetInfo = action.resetInfo || {};
+            return Object.assign({}, state, {
+                loggedIn: resetInfo.success,
+                isFetching: false,
+                loginFailed: resetInfo.errorKey != null,
+                ...resetInfo
+            });
+
+
         default:
             return state;
     }

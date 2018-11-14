@@ -28,29 +28,60 @@
                     <div><img class="logo" src="<?php echo THEME_IMG_PATH; ?>/amec-logo.png"></div>
                 </div>
                 <div class="col-8">
-                    <ul class="nav justify-content-end">
-                        <li class="nav-item"><a class="nav-link p-2" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link p-2 active" href="/m3">Questionnaire</a></li>
-                        <li class="nav-item"><a class="nav-link p-2" href="#">Supporting Material</a></li>
-                        <li class="nav-item"><a class="nav-link p-2" href="#">Resources</a></li>
-                        <li class="nav-item"><a class="nav-link p-2" href="#">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link p-2" href="#">AMEC Website</a></li>
-						<?php if ( is_user_logged_in() ) {
-							?>
-                            <li class="nav-item">
-                                <form action="/m3" method="post">
-                                    <input type="submit" class="logout-button" name="m3_logout" value="Log Out" />
-                                </form>
-
-                            </li>
+                    <div class="row justify-content-end">
+                        <div class="col-12 justify-content-end">
 							<?php
-						}
-						?>
-                    </ul>
+							if ( is_user_logged_in() ) {
+								?>
+
+                                <div class="log-out-button nav-item pull-right">
+                                    <form action="/m3" method="post">
+                                        <input type="submit" class="logout-button" name="m3_logout" value="Log Out"/>
+                                    </form>
+
+                                </div>
+
+								<?php
+							}
+
+							m3_nav( 'header' );
+
+							?>
+                        </div>
+                    </div>
+
+                    <!--                    <ul class="nav justify-content-end">
+											<li class="nav-item"><a class="nav-link p-2" href="#">Home</a></li>
+											<li class="nav-item"><a class="nav-link p-2 active" href="/m3">Questionnaire</a></li>
+											<li class="nav-item"><a class="nav-link p-2" href="#">Supporting Material</a></li>
+											<li class="nav-item"><a class="nav-link p-2" href="#">Resources</a></li>
+											<li class="nav-item"><a class="nav-link p-2" href="#">Contact</a></li>
+											<li class="nav-item"><a class="nav-link p-2" href="#">AMEC Website</a></li>
+
+										</ul>-->
                 </div>
             </div>
         </div>
     </div>
-    <h1 class="sub-header text-center p-4 m-0">Measurement Maturity Mapper</h1>
+
+	<?php
+	$post_title = get_the_title();
+	if ( $post_title == "M3 Questionnaire" ) {
+		?>
+
+        <h2 class="sub-header text-center p-3 m-0">Measurement Maturity Mapper</h2>
+
+		<?php
+	} else {
+		?>
+
+        <h1 class="sub-header text-center p-4 m-0">Measurement Maturity Mapper</h1>
+
+		<?php
+	}
+	?>
+
+
 </header>
+
 

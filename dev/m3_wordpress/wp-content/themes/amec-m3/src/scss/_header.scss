@@ -12,6 +12,7 @@ header {
       height: 3em;
     }
 
+
     .nav {
       .nav-item {
         font-size: .6em;
@@ -22,6 +23,19 @@ header {
         }
 
       }
+
+      .dropdown-menu {
+        color: #fff;
+        background-color: $dark-gray;
+        border-radius: 0;
+        min-width: 0;
+
+        .dropdown-item {
+          color: #fff;
+          background-color: inherit;
+        }
+      }
+
     }
 
   }
@@ -29,6 +43,13 @@ header {
   h1.sub-header {
     font-size: 3.4em;
     font-weight: 900;
+    background: url("../images/header-image.jpg") no-repeat;
+    letter-spacing: 0.04em;
+  }
+
+  h2.sub-header {
+    font-size: 2.4em;
+    font-weight: 800;
     background: url("../images/header-image.jpg") no-repeat;
     letter-spacing: 0.04em;
   }

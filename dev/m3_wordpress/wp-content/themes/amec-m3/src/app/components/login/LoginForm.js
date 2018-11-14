@@ -25,7 +25,9 @@ class LoginForm extends Component {
             formValid: false,
             emailValid: false,
             passwordValid: false,
-            formErrors: {log: '', pwd: ''}
+            formErrors: {log: '', pwd: ''},
+            showResetPassword: false,
+            showResetSubmitted: false,
 
         }
     }
@@ -37,10 +39,6 @@ class LoginForm extends Component {
             () => {
                 this.validateField(name, value)
             });
-    }
-
-    errorClass(error) {
-        return (error.length === 0 ? '' : 'has-error');
     }
 
     validateField(fieldName, value) {
@@ -75,12 +73,99 @@ class LoginForm extends Component {
         if(!this.state.formValid) {
             this.setState({showErrors: true});
         } else {
-            this.props.loginUser(this.state.log, this.state.pwd)
+            if(this.state.showResetPassword){
+                this.props.requestResetLink(this.state.log);
+                this.handleResetSubmitted(true);
+            } else {
+                this.props.loginUser(this.state.log, this.state.pwd)
+            }
         }
     }
 
+    handleResetPassword(show){
+        this.setState({showResetPassword: show, showResetSubmitted: false});
+    }
+
+    handleResetSubmitted(show){
+        this.setState({showResetPassword: false, showResetSubmitted: show});
+    }
+
+    renderResetSubmitted(){
+        return ( <div className="row justify-content-center">
+            {/*{ submission }*/}
+            <div className="auth-choice col-6 ">
+                <a className="pull-right" onClick={() => this.handleResetSubmitted(false)}>
+                    <i className="fas fa-times"/>
+                </a>
+                <h2>Reset Password</h2>
+
+                <div className="reset-password-info">
+                    <p>
+                        We have emailed you a link to reset your password.
+                    </p>
+                    <p>
+                        You should receive it in the next few minutes.
+                    </p>
+                    <p>
+                        Haven't received it? <a onClick={() => this.handleResetPassword(true)} >Click here to resend</a>
+                    </p>
+                </div>
+
+                <div className="form-group ">
+                    <button id="m3_login"
+                            className="btn btn-primary btn-block login-button"
+                            name="m3_login" onClick={() => this.handleResetSubmitted(false)}>
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>)
+    }
+
+    renderForgotPassword(){
+
+        let formErrors = false;
+
+        return ( <div className="row justify-content-center">
+            {/*{ submission }*/}
+            <div className="auth-choice col-6 ">
+                <a className="pull-right" onClick={() => this.handleResetPassword(false)}>
+                    <i className="fas fa-times"/>
+                </a>
+                <h2>Reset Password</h2>
+
+                <div className="form-group">
+                    <label htmlFor="log" className=" control-label">Email address</label>
+
+                    <div className="input-group ">
+
+                        <input type="email" className="form-control" name="log" id="log"
+                               value={this.state.email}
+                               onChange={(event) => this.handleUserInput(event)}
+                               placeholder="Email"/>
+                    </div>
+
+                </div>
+
+                <div className="form-group ">
+                    <button id="m3_login"
+                            className="btn btn-primary btn-block login-button"
+                            name="m3_login" onClick={() => this.submitForm()}>
+                        Reset
+                    </button>
+                </div>
+
+                {formErrors}
+            </div>
+        </div>)
+
+    }
 
     render() {
+
+        if(this.state.showResetSubmitted) return this.renderResetSubmitted();
+        if(this.state.showResetPassword) return this.renderForgotPassword();
 
         let formErrors;
         if(this.props.loginFailed){
@@ -111,7 +196,7 @@ class LoginForm extends Component {
             if(this.props.reloadPage){
                 window.location = this.props.reloadUrl;
             }
-        } else if(this.props.fetching){
+        } else if(this.props.isFetching){
             submission = <div>Loading...</div>
         }
 
@@ -158,7 +243,9 @@ class LoginForm extends Component {
                     </div>
 
                     <div className="forgot-link">
-                        <a onClick={() => handleForgotPassword()}><i className="far fa-question-circle fa-sm" /> Forgot Password?</a>
+                        <NavLink to={ getAppRoute(M3_APP_ROUTES.LOST_PASSWORD) }>
+                            <i className="far fa-question-circle fa-sm" /> Forgot Password?
+                        </NavLink>
                     </div>
 
                     {formErrors}
@@ -175,7 +262,10 @@ LoginForm.propTypes = {
     loginFailed: PropTypes.bool,
     reloadPage: PropTypes.bool,
     reloadUrl: PropTypes.string,
-    loginUser: PropTypes.func.isRequired
+    errorKey: PropTypes.string,
+    loginUser: PropTypes.func.isRequired,
+    requestResetLink: PropTypes.func.isRequired,
+    resetUserPassword: PropTypes.func.isRequired,
 };
 
 export default LoginForm
