@@ -29,7 +29,7 @@ get_header(); ?>
                 <p class="pull-out">Start your measurement journey here.</p>
             </div>
         </div>
-<br>
+        <br>
         <div class="row">
             <div class="pl-0 col-12 col-sm-8">
                 <div class="team-message mt-4">
@@ -107,9 +107,10 @@ get_header(); ?>
                 </section>
                 <div class="contact my-3">
                     <div>
-                    <h5>Have a question?</h5>
+                        <h5>Have a question?</h5>
 
-                        <p><a href="mailto:m3support@understandingexpertise.uk">Contact the M3 team <i class="fas fa-envelope"></i></a></p>
+                        <p><a href="mailto:m3support@understandingexpertise.uk">Contact the M3 team <i
+                                        class="fas fa-envelope"></i></a></p>
                     </div>
                 </div>
                 <div class="video-link">
@@ -119,8 +120,9 @@ get_header(); ?>
                                 src="/wp-content/uploads/2018/11/presentation_video_link.jpg"
                                 alt="Link to M3 presentation"/>
                     </a>
-
-                    Video Presentation from AMEC Summit
+                    <p>
+                        Video Presentation from AMEC Summit
+                    </p>
 
 
                 </div>

@@ -6342,93 +6342,6 @@ body {
 /*h1, h2, h3 {
   font-family: 'Open Sans', Roboto, "Helvetica Neue", sans-serif;
 }*/
-main.standard-page h1 {
-  margin-bottom: 1rem; }
-
-main.standard-page a {
-  color: #FE6105; }
-  main.standard-page a:hover {
-    text-decoration: underline; }
-
-main.standard-page .team-message .inset-image {
-  float: right;
-  margin-left: 1em;
-  max-width: 400px;
-  border: 1px solid lightgray;
-  border-radius: 10px;
-  overflow: hidden; }
-  main.standard-page .team-message .inset-image img {
-    width: 100%; }
-
-main.standard-page p.sign-off {
-  margin-top: 2em;
-  font-weight: bold; }
-  main.standard-page p.sign-off .team {
-    font-weight: normal;
-    font-style: italic; }
-
-main.standard-page .contact {
-  border: 2px solid #FE6105;
-  padding: 4px;
-  color: #fff; }
-  main.standard-page .contact > div {
-    background-color: #FE6105;
-    padding: 1em; }
-  main.standard-page .contact h5 {
-    font-size: 1.9em;
-    margin: 0; }
-  main.standard-page .contact p {
-    color: #fff;
-    margin-bottom: .2em;
-    font-weight: 400; }
-  main.standard-page .contact a {
-    color: #023463;
-    font-weight: 500;
-    font-size: 1.4em; }
-    main.standard-page .contact a:hover {
-      text-decoration: none; }
-
-main.standard-page .video-link {
-  padding: 1em;
-  background-color: #e4e4e4;
-  border-radius: 10px;
-  border: 1px solid #d0cbcb; }
-  main.standard-page .video-link img {
-    width: 100%; }
-
-main.standard-page .twitter-feed-container {
-  border: 1px solid #d8d8d8;
-  border-top-right-radius: .5em;
-  border-top-left-radius: .5em; }
-  main.standard-page .twitter-feed-container h4 {
-    padding: 1rem;
-    color: #023463;
-    margin: 0; }
-  main.standard-page .twitter-feed-container .twitter-feed {
-    background-color: #eeeeee;
-    overflow: scroll;
-    height: 300px; }
-    main.standard-page .twitter-feed-container .twitter-feed p {
-      padding: 1em .5em;
-      margin: 0; }
-      main.standard-page .twitter-feed-container .twitter-feed p.alt {
-        background-color: #d8d8d8; }
-
-main.standard-page .action-link {
-  color: #fff;
-  margin-top: 1em;
-  background-color: #2941c3; }
-  main.standard-page .action-link a {
-    padding: 0.9em;
-    display: block;
-    color: #fff;
-    font-size: 1.1em;
-    text-transform: uppercase; }
-    main.standard-page .action-link a i {
-      margin-left: 4px; }
-    main.standard-page .action-link a:hover {
-      text-decoration: none; }
-
 a {
   color: inherit; }
   a:hover {
@@ -9548,6 +9461,97 @@ select.ui.dropdown {
   left: 0;
   width: 100%;
   height: 100%; }
+
+main.standard-page h1 {
+  margin-bottom: 1rem; }
+
+main.standard-page a {
+  color: #FE6105; }
+  main.standard-page a:hover {
+    text-decoration: underline; }
+
+main.standard-page .team-message .inset-image {
+  float: right;
+  margin-left: 1em;
+  max-width: 400px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  overflow: hidden; }
+  main.standard-page .team-message .inset-image img {
+    width: 100%; }
+
+main.standard-page p.sign-off {
+  margin-top: 2em;
+  font-weight: bold; }
+  main.standard-page p.sign-off .team {
+    font-weight: normal;
+    font-style: italic; }
+
+main.standard-page .contact {
+  border: 2px solid #FE6105;
+  padding: 4px;
+  color: #fff; }
+  main.standard-page .contact > div {
+    background-color: #FE6105;
+    padding: 1em; }
+  main.standard-page .contact h5 {
+    font-size: 1.9em;
+    margin: 0; }
+  main.standard-page .contact p {
+    color: #fff;
+    margin-bottom: .2em;
+    font-weight: 400; }
+  main.standard-page .contact a {
+    color: #023463;
+    font-weight: 500;
+    font-size: 1.4em; }
+    main.standard-page .contact a:hover {
+      text-decoration: none; }
+
+main.standard-page .video-link {
+  padding: 1em;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+  border: 1px solid #d0cbcb; }
+  main.standard-page .video-link img {
+    width: 100%; }
+  main.standard-page .video-link p {
+    font-size: .88em;
+    margin-top: .8em;
+    margin-bottom: 0; }
+
+main.standard-page .twitter-feed-container {
+  border: 1px solid #d8d8d8;
+  border-top-right-radius: .5em;
+  border-top-left-radius: .5em; }
+  main.standard-page .twitter-feed-container h4 {
+    padding: 1rem;
+    color: #023463;
+    margin: 0; }
+  main.standard-page .twitter-feed-container .twitter-feed {
+    background-color: #eeeeee;
+    overflow: scroll;
+    height: 300px; }
+    main.standard-page .twitter-feed-container .twitter-feed p {
+      padding: 1em .5em;
+      margin: 0; }
+      main.standard-page .twitter-feed-container .twitter-feed p.alt {
+        background-color: #d8d8d8; }
+
+main.standard-page .action-link {
+  color: #fff;
+  margin-top: 1em;
+  background-color: #2941c3; }
+  main.standard-page .action-link a {
+    padding: 0.9em;
+    display: block;
+    color: #fff;
+    font-size: 1.1em;
+    text-transform: uppercase; }
+    main.standard-page .action-link a i {
+      margin-left: 4px; }
+    main.standard-page .action-link a:hover {
+      text-decoration: none; }
 
 .welcome-hero {
   background-image: url("/wp-content/uploads/2018/11/m3_mountains-1024x617.jpg");
